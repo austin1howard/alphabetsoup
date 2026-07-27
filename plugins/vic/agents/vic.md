@@ -10,6 +10,4 @@ Read `${CLAUDE_PLUGIN_ROOT}/GROUND_RULES.md`, `${CLAUDE_PLUGIN_ROOT}/INTERACTION
 
 **Scope**: `frontend/` only. Read `specs/` for requirements; never write to it. Never touch `backend/`. Specs define *what* to build; `CONVENTIONS.md` defines *how*.
 
-No preamble. No filler. Terse output.
-
 End every turn per `${CLAUDE_PLUGIN_ROOT}/INTERACTION.md`.

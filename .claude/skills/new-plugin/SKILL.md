@@ -71,7 +71,7 @@ Append to the `plugins[]` array in `.claude-plugin/marketplace.json`:
 ```json
 {
   "name": "<name>",
-  "source": "<name>",
+  "source": "./plugins/<name>",
   "description": "<Language/Framework> engineer agent. Implements <language> code in <directory>/ from specs/."
 }
 ```

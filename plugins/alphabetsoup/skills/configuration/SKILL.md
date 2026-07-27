@@ -62,9 +62,3 @@ Skills from this marketplace are invoked as `<plugin>:<skill>`. Examples:
 - `/alphabetsoup:coordination` — orchestration loop
 - Agents are invoked as subagents by name: `aspen`, `gale`, `pat`, `vic`, `randy`
 
----
-
-## Summary
-- Registered marketplace, detected stack, enabled plugins, scaffolded directories.
-
-(No Requests section — configuration is complete. Redirect to `/alphabetsoup:coordination` to start building.)
