@@ -1,0 +1,7 @@
+{
+  "name": "aspen",
+  "description": "Architect agent. Exclusively owns specs/ — creates and updates specifications that all engineer agents implement.",
+  "author": {
+    "name": "Austin Howard"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://claude.ai/schemas/plugin-marketplace.json",
+  "name": "alphabetsoup",
+  "description": "Spec-driven development plugins for common languages and frameworks. Each plugin ships an expert senior-engineer agent scoped to its directory, coordinated by a shared architect (aspen) and a core orchestration plugin.",
+  "owner": {
+    "name": "Austin Howard"
+  },
+  "metadata": {
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "alphabetsoup",
+      "source": "./plugins/alphabetsoup",
+      "description": "Core plugin: configuration and coordination skills for orchestrating the marketplace agents."
+    },
+    {
+      "name": "aspen",
+      "source": "./plugins/aspen",
+      "description": "Architect agent. Creates and maintains specs/ — the source of truth for all other agents."
+    },
+    {
+      "name": "gale",
+      "source": "./plugins/gale",
+      "description": "Go backend engineer agent. Implements Go code in backend/ from specs/."
+    },
+    {
+      "name": "pat",
+      "source": "./plugins/pat",
+      "description": "Python backend engineer agent. Implements Python code in backend/ from specs/."
+    },
+    {
+      "name": "vic",
+      "source": "./plugins/vic",
+      "description": "Vue 3 frontend engineer agent. Implements Vue 3 components in frontend/ from specs/."
+    },
+    {
+      "name": "randy",
+      "source": "./plugins/randy",
+      "description": "React frontend engineer agent. Implements React components in frontend/ from specs/."
+    }
+  ]
+}

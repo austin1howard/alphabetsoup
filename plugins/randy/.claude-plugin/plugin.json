@@ -1,0 +1,7 @@
+{
+  "name": "randy",
+  "description": "React frontend engineer agent. Implements React components, pages, and hooks in frontend/ from specs/.",
+  "author": {
+    "name": "Austin Howard"
+  }
+}
