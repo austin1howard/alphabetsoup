@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>alphabetsoup — spec-driven agents for Claude Code</title>
+<meta name="description" content="A Claude Code plugin marketplace for spec-driven development. Scoped expert agents, one per domain, coordinated through durable spec files.">
+<meta property="og:title" content="alphabetsoup">
+<meta property="og:description" content="One agent per domain. Specs as the protocol. A Claude Code plugin marketplace for spec-driven development.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317161C'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23EDE8E0' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17161C;
+    --ink-2:#1E1D25;
+    --panel:#211F29;
+    --line:rgba(237,232,224,.10);
+    --line-strong:rgba(237,232,224,.18);
+    --bone:#EDE8E0;
+    --muted:#9C97A6;
+    --faint:#6E6979;
+    /* agent hues, drawn from each language's own identity */
+    --aspen:#8E8BFF;   /* architect — blueprint indigo */
+    --gale:#2FC4E0;    /* Go */
+    --pat:#FFCE47;     /* Python */
+    --randy:#61DAFB;   /* React */
+    --vic:#4ED69A;     /* Vue */
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ink);color:var(--bone);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:17px;line-height:1.6;font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  a{color:inherit}
+  ::selection{background:var(--aspen);color:var(--ink)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .aspen{color:var(--aspen);font-weight:500}
+
+  /* ---- eyebrow / section labels ---- */
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
+  }
+
+  /* ---- top nav ---- */
+  header.nav{position:sticky;top:0;z-index:20;
+    backdrop-filter:blur(10px);background:rgba(23,22,28,.72);
+    border-bottom:1px solid var(--line);}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;
+    height:60px;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+    font-size:19px;letter-spacing:-.02em;text-decoration:none}
+  .brand b{color:var(--pat)}
+  .nav-links{display:flex;gap:26px;align-items:center;font-size:14px}
+  .nav-links a{color:var(--muted);text-decoration:none;transition:color .15s}
+  .nav-links a:hover{color:var(--bone)}
+  .nav-gh{border:1px solid var(--line-strong);border-radius:999px;
+    padding:7px 15px;color:var(--bone)!important}
+  .nav-gh:hover{background:var(--ink-2)}
+  @media(max-width:620px){.nav-links a:not(.nav-gh){display:none}}
+
+  /* ---- hero ---- */
+  .hero{position:relative;padding:88px 0 72px}
+  .hero::before{content:"";position:absolute;inset:-20% 0 auto 0;height:520px;
+    background:radial-gradient(60% 100% at 72% 0,rgba(142,139,255,.16),transparent 70%);
+    pointer-events:none;z-index:0}
+  .hero-grid{position:relative;z-index:1;display:grid;
+    grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:44px}}
+  .hero h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+    font-size:clamp(40px,6.4vw,68px);line-height:.98;letter-spacing:-.03em;
+    margin:18px 0 0}
+  .hero h1 .soup{
+    background:linear-gradient(96deg,var(--gale),var(--vic) 42%,var(--pat) 70%,var(--randy));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lede{color:var(--muted);font-size:19px;max-width:38ch;margin:22px 0 0}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+    font-weight:600;font-size:15px;border-radius:10px;padding:12px 20px;
+    transition:transform .12s ease,background .15s,border-color .15s}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--bone);color:var(--ink)}
+  .btn-primary:hover{background:#fff}
+  .btn-ghost{border:1px solid var(--line-strong);color:var(--bone)}
+  .btn-ghost:hover{background:var(--ink-2);border-color:var(--muted)}
+
+  /* ---- roster (the signature) ---- */
+  .roster{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:420px){.roster{grid-template-columns:repeat(2,1fr)}}
+  .tile{position:relative;background:var(--panel);border:1px solid var(--line);
+    border-radius:16px;padding:16px 14px 13px;overflow:hidden;
+    transition:transform .18s ease,border-color .18s,box-shadow .18s;
+    --hue:var(--muted)}
+  .tile .glyph{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+    font-size:52px;line-height:.9;color:var(--hue);letter-spacing:-.04em;
+    display:block}
+  .tile .nm{font-weight:600;font-size:15px;margin-top:8px}
+  .tile .role{font-family:"JetBrains Mono",monospace;font-size:11px;
+    color:var(--faint);margin-top:2px;letter-spacing:.02em}
+  .tile::after{content:"";position:absolute;inset:0;border-radius:16px;
+    box-shadow:inset 0 0 0 1px transparent;transition:box-shadow .18s;pointer-events:none}
+  .tile:hover{transform:translateY(-4px);border-color:transparent}
+  .tile:hover::after{box-shadow:inset 0 0 0 1px var(--hue),0 10px 30px -12px var(--hue)}
+  .tile:hover .glyph{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--hue) 55%,transparent))}
+  .t-aspen{--hue:var(--aspen)} .t-gale{--hue:var(--gale)}
+  .t-pat{--hue:var(--pat)} .t-randy{--hue:var(--randy)} .t-vic{--hue:var(--vic)}
+  .t-core{--hue:var(--bone)}
+  .t-core .glyph{font-size:40px;line-height:1.3}
+  .t-core .core-mark{display:inline-flex;gap:4px;align-items:flex-end;height:44px}
+  .t-core .core-mark i{width:6px;background:var(--bone);border-radius:2px;display:block}
+
+  /* load-in stagger */
+  .tile{opacity:0;transform:translateY(14px)}
+  .anim .tile{animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+  .anim .tile:nth-child(1){animation-delay:.04s}
+  .anim .tile:nth-child(2){animation-delay:.10s}
+  .anim .tile:nth-child(3){animation-delay:.16s}
+  .anim .tile:nth-child(4){animation-delay:.22s}
+  .anim .tile:nth-child(5){animation-delay:.28s}
+  .anim .tile:nth-child(6){animation-delay:.34s}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+  /* ---- generic section ---- */
+  section{padding:76px 0;border-top:1px solid var(--line)}
+  .sec-head{max-width:60ch;margin-bottom:40px}
+  .sec-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;
+    font-size:clamp(28px,3.6vw,40px);letter-spacing:-.025em;line-height:1.05;
+    margin:12px 0 0}
+  .sec-head p{color:var(--muted);margin:14px 0 0;font-size:17px}
+
+  /* ---- why: principle cards ---- */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.why-grid{grid-template-columns:1fr}}
+  .card{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;
+    padding:26px 26px 28px;position:relative}
+  .card .k{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--faint);
+    letter-spacing:.04em}
+  .card h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:21px;
+    letter-spacing:-.02em;margin:14px 0 8px}
+  .card p{color:var(--muted);font-size:15.5px;margin:0}
+
+  /* ---- cast: domain columns ---- */
+  .domains{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start}
+  @media(max-width:720px){.domains{grid-template-columns:1fr}}
+  .domain{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:8px 22px 12px}
+  .domain.full{margin-top:16px}
+  .domain.full .dhead{text-align:center}
+  .domain.full .agent{justify-content:center}
+  .dhead{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+    padding:16px 0 12px;border-bottom:1px solid var(--line)}
+  .agent{display:flex;align-items:center;gap:15px;padding:16px 0;--hue:var(--muted)}
+  .agent+.agent{border-top:1px solid var(--line)}
+  .agent .ini{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:36px;
+    line-height:1;letter-spacing:-.04em;color:var(--hue);width:32px;text-align:center;flex:none;
+    transition:filter .18s}
+  .agent:hover .ini{filter:drop-shadow(0 0 16px color-mix(in srgb,var(--hue) 55%,transparent))}
+  .agent .nm{font-weight:600;font-size:16px}
+  .agent .rl{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-top:3px}
+  .agent.t-aspen{--hue:var(--aspen)} .agent.t-gale{--hue:var(--gale)}
+  .agent.t-pat{--hue:var(--pat)} .agent.t-randy{--hue:var(--randy)} .agent.t-vic{--hue:var(--vic)}
+  .core-strip{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:16px;
+    background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
+    text-align:center;flex-wrap:wrap}
+  .core-strip .core-mark{display:inline-flex;gap:4px;align-items:flex-end;height:22px}
+  .core-strip .core-mark i{width:5px;background:var(--bone);border-radius:2px;display:block}
+  .core-strip .nm{font-weight:600}
+  .core-strip .rl{color:var(--muted);font-size:14px}
+
+  /* ---- install / code ---- */
+  .steps{display:grid;gap:16px}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start}
+  .step .num{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;
+    color:var(--faint);width:40px;height:40px;display:grid;place-items:center;
+    border:1px solid var(--line);border-radius:10px;flex:none}
+  .step .body{min-width:0}
+  .step .body p{margin:8px 0 0;color:var(--muted);font-size:15.5px}
+  pre{font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.6;
+    background:#100F14;border:1px solid var(--line);border-radius:12px;
+    padding:16px 18px;overflow-x:auto;margin:12px 0 0;color:#D9D4E4}
+  pre .p{color:var(--faint)} pre .cmd{color:var(--vic)} pre .arg{color:var(--pat)}
+  pre .key{color:var(--randy)} pre .str{color:var(--gale)}
+
+  /* ---- workflows ---- */
+  .flows{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.flows{grid-template-columns:1fr}}
+  .flow{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:24px}
+  .flow .chip{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:13px;
+    color:var(--bone);background:var(--panel);border:1px solid var(--line-strong);
+    border-radius:8px;padding:6px 12px}
+  .flow h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:19px;
+    margin:16px 0 6px;letter-spacing:-.02em}
+  .flow p{color:var(--muted);font-size:15px;margin:0}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);padding:44px 0 60px}
+  .foot-in{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
+  .foot-in .brand{font-size:17px}
+  .foot-links{display:flex;gap:22px;font-size:14px}
+  .foot-links a{color:var(--muted);text-decoration:none}
+  .foot-links a:hover{color:var(--bone)}
+  .foot-note{color:var(--faint);font-size:13px;margin-top:22px}
+
+  :focus-visible{outline:2px solid var(--aspen);outline-offset:3px;border-radius:4px}
+
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .tile{opacity:1!important;transform:none!important;animation:none!important}
+    *{transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">alphabet<b>soup</b></a>
+    <nav class="nav-links">
+      <a href="#why">Why</a>
+      <a href="#cast">Plugins</a>
+      <a href="#install">Install</a>
+      <a class="nav-gh" href="https://github.com/austin1howard/alphabetsoup">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">A Claude Code plugin marketplace</span>
+        <h1>One agent per domain.<br><span class="soup">Specs as the protocol.</span></h1>
+        <p class="lede">A Claude Code plugin marketplace. Each plugin adds one agent scoped to a single domain; a shared architect owns the specs, and a core plugin routes work between them.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#install">Install</a>
+          <a class="btn btn-ghost" href="https://github.com/austin1howard/alphabetsoup">View on GitHub ↗</a>
+        </div>
+      </div>
+      <div class="roster" id="roster" aria-label="The agent roster">
+        <div class="tile t-aspen"><span class="glyph">A</span><div class="nm">aspen</div><div class="role">architect · specs</div></div>
+        <div class="tile t-gale"><span class="glyph">G</span><div class="nm">gale</div><div class="role">Go · backend</div></div>
+        <div class="tile t-pat"><span class="glyph">P</span><div class="nm">pat</div><div class="role">Python · backend</div></div>
+        <div class="tile t-randy"><span class="glyph">R</span><div class="nm">randy</div><div class="role">React · frontend</div></div>
+        <div class="tile t-vic"><span class="glyph">V</span><div class="nm">vic</div><div class="role">Vue 3 · frontend</div></div>
+        <div class="tile t-core"><span class="glyph core-mark" aria-hidden="true"><i style="height:16px"></i><i style="height:30px"></i><i style="height:22px"></i></span><div class="nm">alphabetsoup</div><div class="role">core · orchestrates</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Design</span>
+        <h2>Built for agents, not a team of humans.</h2>
+        <p>Most multi-agent frameworks copy a human org: personas that chat, negotiate, and hold standups. Agents gain nothing from the ritual — it's tokens spent re-explaining what a spec already records. Coordination here is deliberately thin, and these four decisions carry it.</p>
+      </div>
+      <div class="why-grid">
+        <div class="card">
+          <div class="k">// protocol</div>
+          <h3>Specs are the source of truth</h3>
+          <p><span class="aspen">aspen</span> owns the specs. Engineer agents read from them and implement against them. When code and spec disagree, the agent flags the conflict instead of guessing — so intent lives in one place, not re-explained each turn.</p>
+        </div>
+        <div class="card">
+          <div class="k">// scope</div>
+          <h3>Each agent's context is one domain</h3>
+          <p>An agent loads only the domain it owns, not the whole repo. Context stays small and relevant as the project grows, which holds output quality up and token cost down.</p>
+        </div>
+        <div class="card">
+          <div class="k">// hand-off</div>
+          <h3>Hand-offs are structured, not chat</h3>
+          <p>Each turn ends with a structured Summary + Requests block. The coordination skill parses it and dispatches the requested work to the right agent — no free-form back-and-forth.</p>
+        </div>
+        <div class="card">
+          <div class="k">// parallel</div>
+          <h3>Independent work runs concurrently</h3>
+          <p>Agents in separate domains run at the same time. The one enforced ordering is spec before implementation: <span class="aspen">aspen</span> writes the spec, then engineers build against it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAST -->
+  <section id="cast">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Plugins</span>
+        <h2>One plugin per agent, named for its language's first letter.</h2>
+        <p>gale for Go, pat for Python, randy for React. Install any of them with <code class="mono" style="color:var(--bone)">/plugin install &lt;name&gt;@alphabetsoup</code>.</p>
+      </div>
+      <div class="core-strip">
+        <span class="core-mark" aria-hidden="true"><i style="height:9px"></i><i style="height:18px"></i><i style="height:13px"></i></span>
+        <span><span class="nm">alphabetsoup</span> <span class="rl">— core: orchestrator &amp; your interface to the agents</span></span>
+      </div>
+      <div class="domains">
+        <div class="domain">
+          <div class="dhead">backend</div>
+          <div class="agent t-gale"><span class="ini">G</span><div><div class="nm">gale</div><div class="rl">Go</div></div></div>
+          <div class="agent t-pat"><span class="ini">P</span><div><div class="nm">pat</div><div class="rl">Python</div></div></div>
+        </div>
+        <div class="domain">
+          <div class="dhead">frontend</div>
+          <div class="agent t-randy"><span class="ini">R</span><div><div class="nm">randy</div><div class="rl">React</div></div></div>
+          <div class="agent t-vic"><span class="ini">V</span><div><div class="nm">vic</div><div class="rl">Vue 3</div></div></div>
+        </div>
+      </div>
+      <div class="domain full">
+        <div class="dhead">specs</div>
+        <div class="agent t-aspen"><span class="ini">A</span><div><div class="nm">aspen</div><div class="rl">architect — source of truth for every agent</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section id="install">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Install</span>
+        <h2>Register the marketplace, then install the core plugin.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <div class="body">
+            <strong>Register the marketplace</strong> in your project's <code class="mono">.claude/settings.json</code>.
+            <pre>{
+  <span class="key">"extraKnownMarketplaces"</span>: [{ <span class="key">"github"</span>: <span class="str">"austin1howard/alphabetsoup"</span> }]
+}</pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <div class="body">
+            <strong>Install the core plugin and run configuration.</strong>
+            <pre><span class="cmd">/plugin</span> <span class="arg">install</span> alphabetsoup@alphabetsoup
+<span class="cmd">/alphabetsoup:configuration</span></pre>
+            <p>Step 1 is a one-time bootstrap. From then on <code class="mono">/alphabetsoup:configuration</code> keeps the marketplace registered, detects your stack, and enables the right plugins.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOWS -->
+  <section id="workflows">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Skills</span>
+        <h2>Two slash commands drive the marketplace.</h2>
+      </div>
+      <div class="flows">
+        <div class="flow">
+          <span class="chip">/alphabetsoup:configuration</span>
+          <h3>Configuration</h3>
+          <p>Detects your stack, enables the matching plugins, scaffolds the domains each agent owns, and re-registers the marketplace. Run it any time the setup drifts.</p>
+        </div>
+        <div class="flow">
+          <span class="chip">/alphabetsoup:coordination</span>
+          <h3>Coordination</h3>
+          <p>Takes a goal, dispatches each piece to the agent that owns the relevant domain, runs independent pieces in parallel, and routes the Summary + Requests hand-offs until the goal is done.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <a class="brand" href="#top">alphabet<b>soup</b></a>
+      <div class="foot-links">
+        <a href="https://github.com/austin1howard/alphabetsoup">GitHub</a>
+        <a href="https://github.com/austin1howard/alphabetsoup#readme">README</a>
+        <a href="#install">Install</a>
+      </div>
+    </div>
+    <p class="foot-note">Specs are the source of truth — <span class="aspen">aspen</span> authors them, engineers implement. Add a language with <code class="mono" style="color:var(--muted)">/new-plugin</code>.</p>
+  </div>
+</footer>
+
+<script>
+  // Trigger the roster stagger once the tiles are on screen (respects reduced-motion via CSS).
+  var roster = document.getElementById('roster');
+  if (roster && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var io = new IntersectionObserver(function(e){
+      if (e[0].isIntersecting){ roster.classList.add('anim'); io.disconnect(); }
+    }, {threshold:.3});
+    io.observe(roster);
+  }
+</script>
+</body>
+</html>
