@@ -9,13 +9,19 @@ shared/
   INTERACTION.md                   # hand-off protocol template
 plugins/
   alphabetsoup/                    # core: configuration + coordination skills
-  aspen/ gale/ pat/ vic/ randy/    # language/framework agents
+  aspen/                           # architect agent (owns specs/)
+  gale/ pat/ vic/ randy/           # language/framework agents
+    CONVENTIONS.md                 #   per-language "how"; real file, NOT symlinked
 .claude/skills/new-plugin/         # maintainer meta-skill (not published)
 ```
 
 ## Naming convention
 
 Each plugin is named for a **gender-neutral name sharing the language's first letter**. Agent name = plugin name. Examples: Go → `gale`, Python → `pat`, Vue → `vic`, React → `randy`, architect → `aspen`.
+
+## What vs. how
+
+`specs/` defines *what*; `CONVENTIONS.md` (one per language plugin, real file — not symlinked) defines *how*. Precedence and adoption rules are in `shared/GROUND_RULES.md`.
 
 ## Shared rules via symlinks
 

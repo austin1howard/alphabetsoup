@@ -38,7 +38,25 @@ Create `plugins/<name>/.claude-plugin/plugin.json`:
 }
 ```
 
-Create `plugins/<name>/agents/<name>.md` modeled on an existing engineer agent (e.g. `plugins/gale/agents/gale.md`). Customize: language/framework name, working directory, language-specific standards (linter, test framework, idioms).
+Create `plugins/<name>/agents/<name>.md` modeled on an existing engineer agent (e.g. `plugins/gale/agents/gale.md`). Customize: language/framework name, working directory. The agent prompt only points to `CONVENTIONS.md` — language-specific opinions live there, not inline.
+
+Create `plugins/<name>/CONVENTIONS.md` — a **real file, never symlinked** — using this template:
+
+```markdown
+# <Language> Conventions
+
+## Tooling
+- ...
+
+## Libraries (default picks)
+- <purpose> → <library>
+
+## Patterns to enforce
+- ...
+
+## Anti-patterns
+- ...
+```
 
 Create symlinks (use Bash, not Write):
 ```bash

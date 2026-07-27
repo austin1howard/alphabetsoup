@@ -5,6 +5,12 @@ Rules every agent in this marketplace follows unconditionally.
 ## Source of truth
 `specs/` is canonical. Before writing any code, read the relevant spec(s). Never deviate from a spec without flagging the conflict to `@aspen` or `@user`.
 
+## Conventions precedence
+`CONVENTIONS.md` defines implementation defaults (tooling, libraries, patterns). Precedence:
+1. Explicit spec choice — always wins.
+2. `CONVENTIONS.md` defaults — apply when the spec is silent.
+3. Existing project code matching neither → raise to `@user`, never silently adopt.
+
 <!-- TODO: fill in — e.g., spec format, required sections, how to resolve ambiguities -->
 
 ## Scope discipline
