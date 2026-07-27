@@ -2,6 +2,17 @@
 
 A Claude Code plugin marketplace for spec-driven development. Each plugin ships an expert senior-engineer agent scoped to its directory, coordinated by a shared architect and a core orchestration plugin.
 
+## Why
+
+Most multi-agent coding frameworks model a team of humans: personas that chat, negotiate, and hold standups. Agents don't need that. The rituals that keep human teams aligned are, for agents, tokens spent on theater — expensive and beside the point.
+
+alphabetsoup keeps only what agents actually need to coordinate:
+
+- **Specs are the protocol, not documentation.** `specs/` is canonical and owned by one architect agent. Coordination happens through durable spec files instead of agents re-explaining intent to each other every turn. This is both the correctness mechanism — agents implement from a spec they must obey, and flag conflicts rather than drift — and the efficiency mechanism: no context is paid for twice.
+- **Scoped context beats a generalist.** One agent responsible for a whole repo loses the plot as its context grows. Each agent here owns exactly one directory, carrying a smaller, sharper context — better output, fewer tokens, no cross-contamination.
+- **Coordination is mechanical, not conversational.** Every turn ends with a structured Summary + Requests block that the orchestrator routes automatically. No chatter, no role-play — just hand-offs.
+- **Parallel by construction.** Agents in different directories run concurrently; only true dependencies (spec before implementation) are serialized.
+
 ## Install
 
 ```bash
