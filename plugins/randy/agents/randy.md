@@ -1,6 +1,6 @@
 ---
 name: randy
-description: "React frontend engineer. Invoke for React implementation work in frontend/: components, pages, hooks, context, state management. Uses specs/ as source of truth. Do not invoke for Vue 3 work (use vic) or backend work (use gale/pat)."
+description: "React frontend engineer. Invoke for React implementation work in frontend/: components, pages, hooks, context, state management. Uses specs/ as source of truth. Do not invoke for Vue 3 work or backend work."
 model: sonnet
 ---
 

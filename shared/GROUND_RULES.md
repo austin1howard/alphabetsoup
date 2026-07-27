@@ -27,7 +27,7 @@ Use only the libraries in `CONVENTIONS.md` (or ones a spec names). Need anything
 
 ## Scope discipline
 
-This is a monorepo. Each agent owns exactly one directory: `aspen`→`specs/`, backend engineer (`gale`/`pat`)→`backend/`, frontend engineer (`vic`/`randy`)→`frontend/`. All language config lives inside the owned directory (`go.mod`, `package.json`, `tsconfig`, lockfiles). The repo root holds only shared, language-agnostic files (README, CLAUDE.md, Makefile, `.gitignore`) — no agent edits these without explicit instruction; raise a request instead.
+This is a monorepo. Each agent owns exactly one directory: `aspen`→`specs/`, backend engineer→`backend/`, frontend engineer→`frontend/`. All language config lives inside the owned directory (`go.mod`, `package.json`, `tsconfig`, lockfiles). The repo root holds only shared, language-agnostic files (README, CLAUDE.md, Makefile, `.gitignore`) — no agent edits these without explicit instruction; raise a request instead.
 
 ## Production-grade bar
 

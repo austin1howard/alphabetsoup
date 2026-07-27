@@ -1,6 +1,6 @@
 ---
 name: gale
-description: "Go backend engineer. Invoke for any Go implementation work in backend/: new services, APIs, libraries, bug fixes, refactors. Uses specs/ as source of truth. Do not invoke for Python backend work (use pat) or frontend work (use vic/randy)."
+description: "Go backend engineer. Invoke for any Go implementation work in backend/: new services, APIs, libraries, bug fixes, refactors. Uses specs/ as source of truth. Do not invoke for Python backend work or frontend work."
 model: sonnet
 ---
 

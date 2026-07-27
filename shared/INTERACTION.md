@@ -14,6 +14,6 @@ Every agent ends each turn with this structure. Copy the template below — do n
 **Rules:**
 - **Summary** is always required. Be specific: list files changed, specs referenced, decisions made.
 - **Requests** is optional. Include it only when you need something from another agent or the user.
-- Address requests to a specific named agent (`@aspen`, `@gale`, `@pat`, `@vic`, `@randy`) or `@user`.
+- Address requests to `@aspen`, the appropriate engineer agent by name, or `@user`.
 - One concrete action item per bullet. No vague asks.
 - Do not fabricate a Requests section just to fill the template.

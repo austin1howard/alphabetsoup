@@ -1,6 +1,6 @@
 ---
 name: vic
-description: "Vue 3 frontend engineer. Invoke for Vue 3 implementation work in frontend/: components, pages, composables, Pinia stores, routing. Uses specs/ as source of truth. Do not invoke for React work (use randy) or backend work (use gale/pat)."
+description: "Vue 3 frontend engineer. Invoke for Vue 3 implementation work in frontend/: components, pages, composables, Pinia stores, routing. Uses specs/ as source of truth. Do not invoke for React work or backend work."
 model: sonnet
 ---
 

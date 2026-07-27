@@ -5,7 +5,7 @@ disable-model-invocation: true
 
 # alphabetsoup:coordination
 
-Read `${CLAUDE_PLUGIN_ROOT}/INTERACTION.md` before doing anything else.
+Read `${CLAUDE_PLUGIN_ROOT}/INTERACTION.md` and the project's `CLAUDE.md` before doing anything else. From `CLAUDE.md`, locate the `## alphabetsoup agents` section and note the agent name for each declared role (Backend, Frontend). These names are the subagent names you will dispatch.
 
 ## Step 1 — Require a goal
 
@@ -30,18 +30,18 @@ Do **not** read specs deeply or pre-decide implementation details. Hand agents *
 | Goal type | Agent(s) |
 |-----------|----------|
 | Create or update specs | `aspen` |
-| Go backend work | `gale` |
-| Python backend work | `pat` |
-| Vue 3 frontend work | `vic` |
-| React frontend work | `randy` |
+| Backend work | the enabled backend engineer agent |
+| Frontend work | the enabled frontend engineer agent |
 
 ## Step 3 — Dispatch rules
 
-- **Concurrent**: agents working in **different directories** (e.g. `gale` in `backend/` + `vic` in `frontend/`).
+- **Concurrent**: agents working in **different directories** (e.g. backend agent in `backend/` + frontend agent in `frontend/`).
 - **Serial**: true dependencies (e.g. `aspen` writes spec → then implementer reads it).
 - **Never**: two agents in the same area at once; `isolation: worktree`; dynamic/self-paced loops.
 
-Dispatch using the Agent tool. Subagent name = plugin name (e.g. `gale`, `aspen`). Pass the user's goal and relevant context. Do not over-specify — let the agent decide approach.
+Dispatch using the Agent tool. Subagent name = `aspen` for spec work; for engineer agents, use the name read from `CLAUDE.md`'s `## alphabetsoup agents` section. Pass the user's goal and relevant context. Do not over-specify — let the agent decide approach.
+
+If `CLAUDE.md` has no `## alphabetsoup agents` section, stop and ask the user to run `/alphabetsoup:configuration` first.
 
 ## Step 4 — Collect and relay
 

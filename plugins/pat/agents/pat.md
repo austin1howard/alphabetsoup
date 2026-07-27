@@ -1,6 +1,6 @@
 ---
 name: pat
-description: "Python backend engineer. Invoke for any Python implementation work in backend/: services, APIs, scripts, data pipelines, bug fixes. Uses specs/ as source of truth. Do not invoke for Go backend work (use gale) or frontend work (use vic/randy)."
+description: "Python backend engineer. Invoke for any Python implementation work in backend/: services, APIs, scripts, data pipelines, bug fixes. Uses specs/ as source of truth. Do not invoke for Go backend work or frontend work."
 model: sonnet
 ---
 
