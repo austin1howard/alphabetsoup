@@ -13,7 +13,10 @@ plugins/
   gale/ pat/ vic/ randy/           # language/framework agents
     CONVENTIONS.md                 #   per-language "how"; real file, NOT symlinked
 .claude/skills/new-plugin/         # maintainer meta-skill (not published)
+docs/                              # public GitHub Pages site (served from master:/docs; see docs/CLAUDE.md)
 ```
+
+The public site lists every agent; `/new-plugin` keeps it in sync. When plugins change, follow `docs/CLAUDE.md`.
 
 ## Naming convention
 

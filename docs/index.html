@@ -155,7 +155,7 @@
   .domain{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:8px 22px 12px}
   .domain.full{margin-top:16px}
   .domain.full .dhead{text-align:center}
-  .domain.full .agent{justify-content:center}
+  .domain.full .agent{justify-content:center;flex-wrap:wrap}
   .dhead{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;
     letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
     padding:16px 0 12px;border-bottom:1px solid var(--line)}
@@ -165,8 +165,18 @@
     line-height:1;letter-spacing:-.04em;color:var(--hue);width:32px;text-align:center;flex:none;
     transition:filter .18s}
   .agent:hover .ini{filter:drop-shadow(0 0 16px color-mix(in srgb,var(--hue) 55%,transparent))}
+  .agent .meta{flex:none;width:74px}
   .agent .nm{font-weight:600;font-size:16px}
   .agent .rl{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-top:3px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto;min-width:0}
+  .tag{font-family:"JetBrains Mono",monospace;font-size:11px;line-height:1.4;color:var(--muted);
+    background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:3px 8px;white-space:nowrap}
+  /* subtle categories: library / pattern / anti-pattern */
+  .tag.lib{color:#B9C1F2;border-color:rgba(140,150,240,.34);background:rgba(140,150,240,.09)}
+  .tag.rule{color:#A6DCC0;border-color:rgba(78,214,154,.32);background:rgba(78,214,154,.08)}
+  .tag.anti{color:#E6B2B2;border-color:rgba(224,120,120,.36);background:rgba(224,120,120,.10)}
+  .domain.full .meta{width:auto}
+  .domain.full .tags{flex-basis:100%;justify-content:center;margin-top:4px}
   .agent.t-aspen{--hue:var(--aspen)} .agent.t-gale{--hue:var(--gale)}
   .agent.t-pat{--hue:var(--pat)} .agent.t-randy{--hue:var(--randy)} .agent.t-vic{--hue:var(--vic)}
   .core-strip{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:16px;
@@ -297,7 +307,7 @@
       <div class="sec-head">
         <span class="eyebrow">Plugins</span>
         <h2>One plugin per agent, named for its language's first letter.</h2>
-        <p>gale for Go, pat for Python, randy for React. Install any of them with <code class="mono" style="color:var(--bone)">/plugin install &lt;name&gt;@alphabetsoup</code>.</p>
+        <p>gale for Go, pat for Python, randy for React — each enforces its own opinionated defaults. Install any of them with <code class="mono" style="color:var(--bone)">/plugin install &lt;name&gt;@alphabetsoup</code>.</p>
       </div>
       <div class="core-strip">
         <span class="core-mark" aria-hidden="true"><i style="height:9px"></i><i style="height:18px"></i><i style="height:13px"></i></span>
@@ -306,18 +316,18 @@
       <div class="domains">
         <div class="domain">
           <div class="dhead">backend</div>
-          <div class="agent t-gale"><span class="ini">G</span><div><div class="nm">gale</div><div class="rl">Go</div></div></div>
-          <div class="agent t-pat"><span class="ini">P</span><div><div class="nm">pat</div><div class="rl">Python</div></div></div>
+          <div class="agent t-gale"><span class="ini">G</span><div class="meta"><div class="nm">gale</div><div class="rl">Go</div></div><div class="tags"><span class="tag lib">sqlc + pgx</span><span class="tag rule">accept interfaces, return structs</span><span class="tag lib">huma + chi</span><span class="tag anti">no ORM</span><span class="tag lib">slog</span></div></div>
+          <div class="agent t-pat"><span class="ini">P</span><div class="meta"><div class="nm">pat</div><div class="rl">Python</div></div><div class="tags"><span class="tag lib">pydantic v2</span><span class="tag rule">explicit SQL</span><span class="tag anti">no ORM</span><span class="tag rule">functions, not classes</span><span class="tag anti">no mypy</span></div></div>
         </div>
         <div class="domain">
           <div class="dhead">frontend</div>
-          <div class="agent t-randy"><span class="ini">R</span><div><div class="nm">randy</div><div class="rl">React</div></div></div>
-          <div class="agent t-vic"><span class="ini">V</span><div><div class="nm">vic</div><div class="rl">Vue 3</div></div></div>
+          <div class="agent t-randy"><span class="ini">R</span><div class="meta"><div class="nm">randy</div><div class="rl">React</div></div><div class="tags"><span class="tag lib">Zustand</span><span class="tag rule">derive, don't duplicate</span><span class="tag lib">React Query</span><span class="tag anti">no useEffect fetching</span><span class="tag lib">React Router</span></div></div>
+          <div class="agent t-vic"><span class="ini">V</span><div class="meta"><div class="nm">vic</div><div class="rl">Vue 3</div></div><div class="tags"><span class="tag rule">&lt;script setup&gt;</span><span class="tag lib">Pinia</span><span class="tag rule">composables</span><span class="tag lib">VueUse</span><span class="tag anti">no Options API</span></div></div>
         </div>
       </div>
       <div class="domain full">
         <div class="dhead">specs</div>
-        <div class="agent t-aspen"><span class="ini">A</span><div><div class="nm">aspen</div><div class="rl">architect — source of truth for every agent</div></div></div>
+        <div class="agent t-aspen"><span class="ini">A</span><div class="meta"><div class="nm">aspen</div><div class="rl">architect — source of truth for every agent</div></div><div class="tags"><span class="tag rule">specs are the contract</span><span class="tag anti">flag conflicts, don't drift</span><span class="tag rule">spec before code</span></div></div>
       </div>
     </div>
   </section>

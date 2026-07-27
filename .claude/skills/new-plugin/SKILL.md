@@ -76,7 +76,17 @@ Append to the `plugins[]` array in `.claude-plugin/marketplace.json`:
 }
 ```
 
-## Step 5 — Validate
+## Step 5 — Update the landing page
+
+The public site at `docs/index.html` lists every agent. Follow `docs/CLAUDE.md` → "Adding a plugin" to keep it in sync. In short, edit `docs/index.html`:
+1. Add a `--<name>` hue var in `:root` (a color from the language's identity).
+2. Bind it: add `.t-<name>` and `.agent.t-<name>` to the hue-class lines.
+3. Add a hero `.tile` for the agent to `.roster`.
+4. Add an `.agent` row to the matching `.domain` in the Plugins section (new `.domain` card if the domain is new), with a `.tags` block of 3–5 opinionated picks from the new `CONVENTIONS.md` (specific libraries and negations like "no ORM" — not generic advice). Class each tag `lib`, `rule`, or `anti` (see `docs/CLAUDE.md`).
+
+Preview with `open docs/index.html` and confirm no filesystem paths leaked outside the Install section.
+
+## Step 6 — Validate
 
 Run:
 ```bash
@@ -91,4 +101,5 @@ Fix any reported errors before finishing.
 ## Summary
 - Scaffolded `plugins/<name>/` with plugin.json, agent, and shared-rule symlinks.
 - Registered in marketplace.json.
+- Updated `docs/index.html` landing page (per `docs/CLAUDE.md`).
 - Ran `claude plugin validate`.
