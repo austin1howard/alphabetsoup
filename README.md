@@ -2,6 +2,8 @@
 
 A Claude Code plugin marketplace for spec-driven development. Each plugin ships an expert senior-engineer agent scoped to its directory, coordinated by a shared architect and a core orchestration plugin.
 
+**Site:** https://austin1howard.github.io/alphabetsoup/
+
 ## Why
 
 Most multi-agent coding frameworks model a team of humans: personas that chat, negotiate, and hold standups. Agents don't need that. The rituals that keep human teams aligned are, for agents, tokens spent on theater — expensive and beside the point.
