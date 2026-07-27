@@ -15,18 +15,22 @@ alphabetsoup keeps only what agents actually need to coordinate:
 
 ## Install
 
-```bash
-# 1. Register the marketplace (add to your project's .claude/settings.json)
+1. Register the marketplace by adding it to your project's `.claude/settings.json`:
+
+```json
 {
   "extraKnownMarketplaces": [{ "github": "austin1howard/alphabetsoup" }]
 }
+```
 
-# 2. Install the core plugin
+2. Install the core plugin, then run configuration:
+
+```bash
 /plugin install alphabetsoup@alphabetsoup
-
-# 3. Run configuration — detects your stack and enables the right plugins
 /alphabetsoup:configuration
 ```
+
+Step 1 is a one-time manual bootstrap; from then on `/alphabetsoup:configuration` keeps the marketplace registered, detects your stack, and enables the right plugins.
 
 ## Plugins & agents
 
@@ -50,7 +54,7 @@ Install any plugin:
 ```
 /alphabetsoup:configuration
 ```
-Registers the marketplace, detects your stack, enables plugins, and scaffolds `specs/`, `backend/`, `frontend/`.
+Detects your stack, enables plugins, and scaffolds `specs/`, `backend/`, `frontend/` (and keeps the marketplace registered).
 
 ### Coordination
 ```
