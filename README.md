@@ -44,6 +44,7 @@ Step 1 is a one-time manual bootstrap; from then on `/alphabetsoup:configuration
 | `pat` | pat | Python backend | `backend/` |
 | `vic` | vic | Vue 3 frontend | `frontend/` |
 | `randy` | randy | React frontend | `frontend/` |
+| `sol` | sol | Swift native (iOS/macOS) | `app/` |
 
 Install any plugin:
 ```
@@ -56,7 +57,7 @@ Install any plugin:
 ```
 /alphabetsoup:configuration
 ```
-Detects your stack, enables plugins, and scaffolds `specs/`, `backend/`, `frontend/` (and keeps the marketplace registered).
+Detects your stack, enables plugins, and scaffolds `specs/`, `backend/`, `frontend/`, `app/` as needed (and keeps the marketplace registered).
 
 ### Coordination
 ```

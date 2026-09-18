@@ -30,6 +30,7 @@ Then install the core plugin:
 | `*.py` or `pyproject.toml` present | `pat@alphabetsoup` (Python backend) |
 | `package.json` with `"vue"` dep | `vic@alphabetsoup` (Vue 3 frontend) |
 | `package.json` with `"react"` dep | `randy@alphabetsoup` (React frontend) |
+| `*.swift` or `Package.swift` present | `sol@alphabetsoup` (Swift native) |
 
 Also enable `aspen@alphabetsoup` (architect) for any project that uses `specs/`.
 
@@ -56,6 +57,7 @@ Add an `## alphabetsoup agents` section to the project's `CLAUDE.md`. List only 
 - Architect: `aspen`
 - Backend: `<plugin-name>`   <!-- e.g. gale, pat -->
 - Frontend: `<plugin-name>`  <!-- e.g. vic, randy -->
+- Native: `<plugin-name>`    <!-- e.g. sol -->
 ```
 
 Omit roles not applicable to this project (e.g. no `Frontend` line for a backend-only repo). The coordination skill reads this section to resolve which agent to dispatch for each role.
@@ -67,6 +69,7 @@ Create standard directories if missing:
 specs/          # source of truth — aspen owns this
 backend/        # backend engineer agent
 frontend/       # frontend engineer agent
+app/            # native engineer agent (Swift)
 ```
 
 ## 5 — Skill namespacing
