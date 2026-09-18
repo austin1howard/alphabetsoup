@@ -28,6 +28,7 @@
     --pat:#FFCE47;     /* Python */
     --randy:#61DAFB;   /* React */
     --vic:#4ED69A;     /* Vue */
+    --sol:#F05138;     /* Swift */
     --maxw:1080px;
   }
   *{box-sizing:border-box}
@@ -113,7 +114,7 @@
   .tile:hover::after{box-shadow:inset 0 0 0 1px var(--hue),0 10px 30px -12px var(--hue)}
   .tile:hover .glyph{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--hue) 55%,transparent))}
   .t-aspen{--hue:var(--aspen)} .t-gale{--hue:var(--gale)}
-  .t-pat{--hue:var(--pat)} .t-randy{--hue:var(--randy)} .t-vic{--hue:var(--vic)}
+  .t-pat{--hue:var(--pat)} .t-randy{--hue:var(--randy)} .t-vic{--hue:var(--vic)} .t-sol{--hue:var(--sol)}
   .t-core{--hue:var(--bone)}
   .t-core .glyph{font-size:40px;line-height:1.3}
   .t-core .core-mark{display:inline-flex;gap:4px;align-items:flex-end;height:44px}
@@ -128,6 +129,7 @@
   .anim .tile:nth-child(4){animation-delay:.22s}
   .anim .tile:nth-child(5){animation-delay:.28s}
   .anim .tile:nth-child(6){animation-delay:.34s}
+  .anim .tile:nth-child(7){animation-delay:.40s}
   @keyframes rise{to{opacity:1;transform:translateY(0)}}
 
   /* ---- generic section ---- */
@@ -150,7 +152,7 @@
   .card p{color:var(--muted);font-size:15.5px;margin:0}
 
   /* ---- cast: domain columns ---- */
-  .domains{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start}
+  .domains{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
   @media(max-width:720px){.domains{grid-template-columns:1fr}}
   .domain{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:8px 22px 12px}
   .domain.full{margin-top:16px}
@@ -178,7 +180,7 @@
   .domain.full .meta{width:auto}
   .domain.full .tags{flex-basis:100%;justify-content:center;margin-top:4px}
   .agent.t-aspen{--hue:var(--aspen)} .agent.t-gale{--hue:var(--gale)}
-  .agent.t-pat{--hue:var(--pat)} .agent.t-randy{--hue:var(--randy)} .agent.t-vic{--hue:var(--vic)}
+  .agent.t-pat{--hue:var(--pat)} .agent.t-randy{--hue:var(--randy)} .agent.t-vic{--hue:var(--vic)} .agent.t-sol{--hue:var(--sol)}
   .core-strip{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:16px;
     background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
     text-align:center;flex-wrap:wrap}
@@ -263,6 +265,7 @@
         <div class="tile t-pat"><span class="glyph">P</span><div class="nm">pat</div><div class="role">Python · backend</div></div>
         <div class="tile t-randy"><span class="glyph">R</span><div class="nm">randy</div><div class="role">React · frontend</div></div>
         <div class="tile t-vic"><span class="glyph">V</span><div class="nm">vic</div><div class="role">Vue 3 · frontend</div></div>
+        <div class="tile t-sol"><span class="glyph">S</span><div class="nm">sol</div><div class="role">Swift · mobile</div></div>
         <div class="tile t-core"><span class="glyph core-mark" aria-hidden="true"><i style="height:16px"></i><i style="height:30px"></i><i style="height:22px"></i></span><div class="nm">alphabetsoup</div><div class="role">core · orchestrates</div></div>
       </div>
     </div>
@@ -323,6 +326,10 @@
           <div class="dhead">frontend</div>
           <div class="agent t-randy"><span class="ini">R</span><div class="meta"><div class="nm">randy</div><div class="rl">React</div></div><div class="tags"><span class="tag lib">Zustand</span><span class="tag rule">derive, don't duplicate</span><span class="tag lib">React Query</span><span class="tag anti">no useEffect fetching</span><span class="tag lib">React Router</span></div></div>
           <div class="agent t-vic"><span class="ini">V</span><div class="meta"><div class="nm">vic</div><div class="rl">Vue 3</div></div><div class="tags"><span class="tag rule">&lt;script setup&gt;</span><span class="tag lib">Pinia</span><span class="tag rule">composables</span><span class="tag lib">VueUse</span><span class="tag anti">no Options API</span></div></div>
+        </div>
+        <div class="domain">
+          <div class="dhead">mobile</div>
+          <div class="agent t-sol"><span class="ini">S</span><div class="meta"><div class="nm">sol</div><div class="rl">Swift</div></div><div class="tags"><span class="tag rule">struct-first</span><span class="tag lib">GRDB</span><span class="tag anti">no force unwrap</span><span class="tag rule">async/await</span><span class="tag lib">Codable</span></div></div>
         </div>
       </div>
       <div class="domain full">

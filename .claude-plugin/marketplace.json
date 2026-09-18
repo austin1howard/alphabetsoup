@@ -38,6 +38,11 @@
       "name": "randy",
       "source": "./plugins/randy",
       "description": "React frontend engineer agent. Implements React components in frontend/ from specs/."
+    },
+    {
+      "name": "sol",
+      "source": "./plugins/sol",
+      "description": "Swift engineer agent. Implements Swift code in ios/ from specs/."
     }
   ]
 }
