@@ -1,6 +1,6 @@
 ---
 name: testing
-description: "Testing bar: what to test, real vs mocked dependencies, coverage gate, regression tests. Load when writing or reviewing tests or fixing a bug."
+description: "Load before fixing any bug or writing, changing, or reviewing tests. Sets the testing bar: regression test that fails before the fix, real dependencies over mocks, 80% coverage gate."
 ---
 
 # Testing

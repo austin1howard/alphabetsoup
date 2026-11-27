@@ -4,7 +4,7 @@
 
 ## Golden rules
 
-- `specs/` is canonical (what + why). Update it in the same change as behavior/contract changes.
+- `specs/` is canonical (what + why). New feature or behavior/contract change → write or update its spec in `specs/` first (`alphabetsoup:specs`), in the same change as the code.
 - Before writing code, load the conventions skill for that language: {{e.g. `python:conventions` (backend/), `vue:conventions` (frontend/)}}.
 - Use `make` targets, never raw tool commands. Repeating a command → add a target, list it below.
 - Non-trivial work starts in plan mode; resolve requirements there.

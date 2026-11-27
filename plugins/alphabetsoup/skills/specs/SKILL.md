@@ -1,6 +1,6 @@
 ---
 name: specs
-description: "Structure and upkeep of specs/, the project's canonical what-and-why. Load when planning or changing behavior, contracts, data model, or architecture, when adding a feature, or when a requirement is unclear."
+description: "Write and update specs/, the canonical what-and-why. Load whenever a feature is proposed, designed, planned, or written up, or behavior, contracts, data model, or architecture change. The write-up goes in specs/, not just chat."
 ---
 
 # Specs
@@ -11,7 +11,7 @@ description: "Structure and upkeep of specs/, the project's canonical what-and-w
 specs/README.md                 # product: what, who, why; index of everything below
 specs/architecture.md           # components, data flow, external deps, deployment
 specs/domain.md                 # entities, invariants, glossary
-specs/features/<name>.md        # purpose, behavior, contracts (API/events/schema), acceptance criteria
+specs/features/<kebab-name>.md  # purpose, behavior, contracts (API/events/schema), acceptance criteria
 specs/decisions/NNNN-<slug>.md  # context, decision, consequences; never edited after acceptance — supersede instead
 ```
 
@@ -19,6 +19,7 @@ specs/decisions/NNNN-<slug>.md  # context, decision, consequences; never edited 
 - Update specs in the same change as the code. Specs and code never disagree on the main branch.
 - Plan mode output → feature spec (new behavior) and/or decision record (choice between alternatives).
 - Write at contract level: endpoints, payload shapes, invariants, error cases, acceptance criteria. No file names, function names, or library choices unless the choice is itself the decision.
+- Feature files: kebab-case feature name (`password-reset.md`), sections Purpose / Behavior / Contracts / Acceptance criteria.
 - Keep `README.md` index current.
 - Terse: tables and code blocks over prose.
 

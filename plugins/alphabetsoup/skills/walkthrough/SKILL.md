@@ -1,6 +1,6 @@
 ---
 name: walkthrough
-description: "Paired, interactive walkthrough with the user: a diff/PR review, a codebase tour, or an explanation of how something works or why an error occurs. Use when the user asks to walk through, review together, tour, or explain how code works / why an error happens. Args: diff|tour|explain [target or question]."
+description: "Use when the user asks why an error, exception, or message occurs, how some code works, or to walk through / review together / tour a diff or codebase. Traces real code with file:line citations, one stop at a time. Args: diff|tour|explain [target or question]."
 ---
 
 # alphabetsoup:walkthrough
