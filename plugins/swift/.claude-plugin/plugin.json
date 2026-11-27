@@ -1,5 +1,7 @@
 {
-  "name": "sol",
+  "name": "swift",
   "description": "Swift engineer agent. Implements Swift code in ios/ from specs/.",
-  "author": { "name": "Austin Howard" }
+  "author": {
+    "name": "Austin Howard"
+  }
 }

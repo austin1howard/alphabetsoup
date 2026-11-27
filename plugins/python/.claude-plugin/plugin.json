@@ -1,5 +1,5 @@
 {
-  "name": "pat",
+  "name": "python",
   "description": "Python backend engineer agent. Implements Python services, APIs, and scripts in backend/ from specs/.",
   "author": {
     "name": "Austin Howard"

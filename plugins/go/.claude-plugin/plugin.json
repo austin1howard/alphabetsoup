@@ -1,5 +1,5 @@
 {
-  "name": "gale",
+  "name": "go",
   "description": "Go backend engineer agent. Implements Go services, APIs, and libraries in backend/ from specs/.",
   "author": {
     "name": "Austin Howard"

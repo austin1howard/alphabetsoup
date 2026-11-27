@@ -15,33 +15,28 @@
       "description": "Core plugin: configuration and coordination skills for orchestrating the marketplace agents."
     },
     {
-      "name": "aspen",
-      "source": "./plugins/aspen",
-      "description": "Architect agent. Creates and maintains specs/ — the source of truth for all other agents."
-    },
-    {
-      "name": "gale",
-      "source": "./plugins/gale",
+      "name": "go",
+      "source": "./plugins/go",
       "description": "Go backend engineer agent. Implements Go code in backend/ from specs/."
     },
     {
-      "name": "pat",
-      "source": "./plugins/pat",
+      "name": "python",
+      "source": "./plugins/python",
       "description": "Python backend engineer agent. Implements Python code in backend/ from specs/."
     },
     {
-      "name": "vic",
-      "source": "./plugins/vic",
+      "name": "vue",
+      "source": "./plugins/vue",
       "description": "Vue 3 frontend engineer agent. Implements Vue 3 components in frontend/ from specs/."
     },
     {
-      "name": "randy",
-      "source": "./plugins/randy",
+      "name": "react",
+      "source": "./plugins/react",
       "description": "React frontend engineer agent. Implements React components in frontend/ from specs/."
     },
     {
-      "name": "sol",
-      "source": "./plugins/sol",
+      "name": "swift",
+      "source": "./plugins/swift",
       "description": "Swift engineer agent. Implements Swift code in ios/ from specs/."
     }
   ]
