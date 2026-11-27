@@ -9,6 +9,7 @@ description: "House standards for repo layout, Makefile targets, CLAUDE.md forma
 - **Single-stack** → project lives at repo root.
 - **Multi-stack** → one dir per domain: `backend/`, `frontend/`, `app/` (native). Each is self-contained: own lockfile, tool config, Makefile, Dockerfile.
 - Root holds only shared files: `CLAUDE.md`, `README.md`, `Makefile`, `.gitignore`, `compose.yaml`, `specs/`, CI config.
+- Plans: active in `.claude/plans/`, implemented ones in `.claude/archive/plans/` (deny-read, so stale plans never re-enter context).
 - In-domain layout: `<lang>:conventions`.
 
 ## Makefile-first
@@ -48,6 +49,8 @@ Terse. No prose beyond these sections. Domain `CLAUDE.md` only for rules that do
 - Same change that alters behavior or contracts → update `specs/` (`alphabetsoup:specs`).
 - `make check` green before calling anything done.
 - Commit early and often, like a human: after each incremental change that leaves `make check` green, commit it — one logical change per commit, imperative subject line. Never batch unrelated work into one commit; never commit red.
+- Never commit directly to `main`/`master` unless the user explicitly allows it for this repo or task. On the default branch → create a feature branch first.
+- Plan implemented → `git mv` it from `.claude/plans/` to `.claude/archive/plans/` in its own commit.
 - New dependency → ask first.
 - Existing code conflicts with conventions → ask; never silently adopt or silently rewrite.
 - Precedence: explicit spec choice > `<lang>:conventions` > ask.

@@ -9,6 +9,8 @@ Claude Code plugin marketplace of opinionated skills: conventions, repo layout, 
 - Language plugins are self-contained (no symlinks, no cross-plugin file reads). Cross-plugin references go through skill names (`python:conventions`).
 - Changing plugins → keep README, `docs/` (see `docs/CLAUDE.md`), and the bootstrap detection table in sync.
 - Test via `/plugin marketplace add ./`, not `--plugin-dir`.
+- Commit after each green incremental change; never commit directly to master unless explicitly allowed.
+- Plan implemented → move it to `.claude/archive/plans/` in its own commit.
 
 ## Layout
 

@@ -14,7 +14,9 @@ Merge into `.claude/settings.json` (create if missing; never drop existing keys)
   "extraKnownMarketplaces": {
     "alphabetsoup": { "source": { "source": "github", "repo": "austin1howard/alphabetsoup" } }
   },
-  "enabledPlugins": { "alphabetsoup@alphabetsoup": true, "<lang>@alphabetsoup": true }
+  "enabledPlugins": { "alphabetsoup@alphabetsoup": true, "<lang>@alphabetsoup": true },
+  "plansDirectory": ".claude/plans",
+  "permissions": { "deny": ["Read(.claude/archive/**)"] }
 }
 ```
 One `<lang>@alphabetsoup` per stack from step 2. If a `<lang>:scaffold` skill isn't available this session, print `/plugin install <lang>@alphabetsoup` and ask the user to run it (then `/reload-plugins`) before continuing.
@@ -49,4 +51,4 @@ Per stack, invoke `<lang>:scaffold` with its target dir.
 Never overwrite. Compare against `standards` (layout, Makefile targets, CLAUDE.md sections, specs/, CI stages, Dockerfile, .gitignore) and present a gap list: item, current, proposed. Apply only what the user approves. Conflicting existing patterns → ask per item.
 
 ## 7 — Verify
-Run `make check` (and `docker compose config` if compose exists). Commit in logical steps as you go (e.g. scaffold per stack, root files, CI) — each commit green. Report results.
+Run `make check` (and `docker compose config` if compose exists). Commit on a feature branch (e.g. `bootstrap`) — never the default branch unless the user explicitly allows it; for a repo with no commits yet, ask. Commit in logical steps as you go (e.g. scaffold per stack, root files, CI) — each commit green. Report results.

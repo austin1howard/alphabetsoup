@@ -10,6 +10,8 @@
 - Non-trivial work starts in plan mode; resolve requirements there.
 - `make check` green before done. New dependency → ask first.
 - Commit after each incremental change with `make check` green — one logical change per commit, never red.
+- Never commit directly to main/master unless explicitly allowed — branch first.
+- Plan implemented → move it to `.claude/archive/plans/` in its own commit.
 - Keep this file current when layout, commands, or rules change.
 {{project-specific rules}}
 
