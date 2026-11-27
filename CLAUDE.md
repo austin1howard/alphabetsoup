@@ -27,6 +27,7 @@ plugins/<lang>/                      python go vue react swift
   skills/conventions/                the "how" for that language
   skills/scaffold/                   init + templates/ + ci.md (toolchain recipe per provider)
 .claude/skills/new-plugin/           maintainer meta-skill (not published)
+tests/                               lint.py, budget.py (stdlib python)
 docs/                                public GitHub Pages site (master:/docs; see docs/CLAUDE.md)
 ```
 
@@ -34,9 +35,8 @@ docs/                                public GitHub Pages site (master:/docs; see
 
 | Command | Does |
 |---|---|
-| `claude plugin validate .` | validate marketplace |
-| `claude plugin validate ./plugins/<name>` | validate one plugin |
+| `make check` | lint (validate + structure + site path leaks) + always-on token budget — done gate |
 | `/new-plugin` | add a language plugin |
 | `open docs/index.html` | preview site |
 
-Run both validate commands before committing; fix all errors (version/license/icon warnings are expected).
+`make check` green before every commit (version/license/icon validate warnings are expected).
