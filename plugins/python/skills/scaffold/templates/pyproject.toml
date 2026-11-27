@@ -1,0 +1,10 @@
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF", "PTH"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "--cov=src/{{pkg}} --cov-report=term-missing --cov-report=xml:reports/coverage.xml --cov-fail-under=80 --junitxml=reports/junit.xml"
