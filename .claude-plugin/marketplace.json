@@ -1,7 +1,7 @@
 {
   "$schema": "https://claude.ai/schemas/plugin-marketplace.json",
   "name": "alphabetsoup",
-  "description": "Spec-driven development plugins for common languages and frameworks. Each plugin ships an expert senior-engineer agent scoped to its directory, coordinated by a shared architect (aspen) and a core orchestration plugin.",
+  "description": "Opinionated skills for working with Claude Code: conventions, repo layout, testing bar, specs, Makefile-first commands, Docker/CI starting points, and paired code walkthroughs.",
   "owner": {
     "name": "Austin Howard"
   },
@@ -9,35 +9,11 @@
     "pluginRoot": "./plugins"
   },
   "plugins": [
-    {
-      "name": "alphabetsoup",
-      "source": "./plugins/alphabetsoup",
-      "description": "Core plugin: configuration and coordination skills for orchestrating the marketplace agents."
-    },
-    {
-      "name": "go",
-      "source": "./plugins/go",
-      "description": "Go backend engineer agent. Implements Go code in backend/ from specs/."
-    },
-    {
-      "name": "python",
-      "source": "./plugins/python",
-      "description": "Python backend engineer agent. Implements Python code in backend/ from specs/."
-    },
-    {
-      "name": "vue",
-      "source": "./plugins/vue",
-      "description": "Vue 3 frontend engineer agent. Implements Vue 3 components in frontend/ from specs/."
-    },
-    {
-      "name": "react",
-      "source": "./plugins/react",
-      "description": "React frontend engineer agent. Implements React components in frontend/ from specs/."
-    },
-    {
-      "name": "swift",
-      "source": "./plugins/swift",
-      "description": "Swift engineer agent. Implements Swift code in ios/ from specs/."
-    }
+    { "name": "alphabetsoup", "source": "./plugins/alphabetsoup", "description": "Core: bootstrap, standards, testing, specs, CI, walkthrough, and review skills plus two reviewer agents." },
+    { "name": "python", "source": "./plugins/python", "description": "Python conventions and scaffold." },
+    { "name": "go", "source": "./plugins/go", "description": "Go conventions and scaffold." },
+    { "name": "vue", "source": "./plugins/vue", "description": "Vue 3 conventions and scaffold." },
+    { "name": "react", "source": "./plugins/react", "description": "React conventions and scaffold." },
+    { "name": "swift", "source": "./plugins/swift", "description": "Swift (iOS/macOS) conventions and scaffold." }
   ]
 }

@@ -1,3 +1,8 @@
+---
+name: conventions
+description: "Swift coding conventions: tooling, UI framework, library picks, patterns, layout, testing. Load before writing, editing, or reviewing any Swift code."
+---
+
 # Swift Conventions
 
 ## Tooling
@@ -27,3 +32,17 @@
 - `DispatchQueue.main.async` — use `@MainActor` or `await MainActor.run`
 - Singleton global mutable state
 - Objective-C bridging unless unavoidable (framework or system API requirement)
+
+## Layout
+```
+<App>.xcodeproj
+<App>/                 # app target: thin — App entry, root scene, DI wiring
+Packages/<Feature>/    # local SwiftPM packages; all real code lives here
+  Sources/<Feature>/
+  Tests/<Feature>Tests/
+```
+
+## Testing
+- Swift Testing (`@Test`, `#expect`) in each package's Tests target; `swift test` per package where no UIKit/AppKit dependency.
+- App-level and UI tests via `xcodebuild test`; result bundle to `reports/`, converted to JUnit (xcresultparser).
+- Coverage ≥ 80% on packages.

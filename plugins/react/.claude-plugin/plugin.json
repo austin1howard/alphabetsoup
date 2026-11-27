@@ -1,6 +1,6 @@
 {
   "name": "react",
-  "description": "React frontend engineer agent. Implements React components, pages, and hooks in frontend/ from specs/.",
+  "description": "React conventions and project scaffold (TypeScript, Zustand, React Query, React Router, Vitest).",
   "author": {
     "name": "Austin Howard"
   }

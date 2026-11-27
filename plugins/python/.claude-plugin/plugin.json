@@ -1,6 +1,6 @@
 {
   "name": "python",
-  "description": "Python backend engineer agent. Implements Python services, APIs, and scripts in backend/ from specs/.",
+  "description": "Python conventions and project scaffold (uv, ruff, pytest, FastAPI, pydantic, explicit SQL).",
   "author": {
     "name": "Austin Howard"
   }

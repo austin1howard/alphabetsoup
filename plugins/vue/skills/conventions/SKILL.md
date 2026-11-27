@@ -1,7 +1,12 @@
+---
+name: conventions
+description: "Vue 3 coding conventions: tooling, library picks, patterns, layout, testing. Load before writing, editing, or reviewing any Vue or frontend TypeScript code in a Vue project."
+---
+
 # Vue Conventions
 
 ## Tooling
-- Vue 3 + TypeScript (always), ESLint + Prettier, Vitest, vue-tsc
+- Vue 3 + TypeScript (always), oxfmt (format), oxlint + ESLint (lint), Vitest, vue-tsc
 
 ## Libraries (default picks)
 - State → Pinia
@@ -15,3 +20,20 @@
 
 ## Anti-patterns
 - Options API; mutating props; `any`; business logic in templates
+
+## Layout
+```
+src/
+  main.ts  App.vue
+  router/        # route table
+  views/         # route-level components
+  components/    # reusable components
+  composables/   # useX() logic
+  stores/        # Pinia stores (setup-store syntax)
+  api/           # typed fetch wrappers; one module per backend resource
+```
+
+## Testing
+- Vitest + @vue/test-utils; test behavior through rendered output and emitted events, not internals.
+- Stub the network at `api/` boundary only.
+- Coverage via `@vitest/coverage-v8`, thresholds 80; junit reporter to `reports/`.

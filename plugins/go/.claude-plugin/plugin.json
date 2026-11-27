@@ -1,6 +1,6 @@
 {
   "name": "go",
-  "description": "Go backend engineer agent. Implements Go services, APIs, and libraries in backend/ from specs/.",
+  "description": "Go conventions and project scaffold (huma + chi, pgx + sqlc, slog, golangci-lint).",
   "author": {
     "name": "Austin Howard"
   }

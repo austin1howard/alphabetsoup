@@ -1,6 +1,6 @@
 {
   "name": "swift",
-  "description": "Swift engineer agent. Implements Swift code in ios/ from specs/.",
+  "description": "Swift conventions and project scaffold (SwiftUI, Swift 6 strict concurrency, GRDB, Swift Testing).",
   "author": {
     "name": "Austin Howard"
   }
