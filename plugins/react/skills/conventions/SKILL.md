@@ -1,6 +1,6 @@
 ---
 name: conventions
-description: "React coding conventions: tooling, library picks, patterns, layout, testing. Load before writing, editing, or reviewing any React or frontend TypeScript code in a React project."
+description: "React coding conventions: tooling, library picks, patterns, layout, testing. Load before writing, editing, or reviewing any React (JSX/TSX) code. Not for Vue, Svelte, or other frameworks."
 ---
 
 # React Conventions

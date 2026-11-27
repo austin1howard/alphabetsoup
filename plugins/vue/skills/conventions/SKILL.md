@@ -1,6 +1,6 @@
 ---
 name: conventions
-description: "Vue 3 coding conventions: tooling, library picks, patterns, layout, testing. Load before writing, editing, or reviewing any Vue or frontend TypeScript code in a Vue project."
+description: "Vue 3 coding conventions: tooling, library picks, patterns, layout, testing. Load before writing, editing, or reviewing any Vue code (.vue SFCs, Pinia stores, composables). Not for React or other frameworks."
 ---
 
 # Vue Conventions
