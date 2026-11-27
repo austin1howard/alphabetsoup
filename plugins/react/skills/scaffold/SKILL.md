@@ -8,8 +8,8 @@ description: "Scaffold a React app in a repo (root if single-stack, else fronten
 `<dir>` = `frontend` (multi-stack) or `.` (single-stack). Templates in `${CLAUDE_SKILL_DIR}/templates/`; replace `{{name}}`.
 
 1. From repo root: `npm create vite@latest <dir> -- --template react-ts`, then `cd <dir> && npm install`.
-2. `npm install zustand @tanstack/react-query react-router` and `npm install -D prettier eslint-config-prettier vitest @vitest/coverage-v8 @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom`. Write `.nvmrc` with the current Node LTS major (24).
-3. Add a `test` block to `vite.config.ts` (`environment: 'jsdom'`, setup file importing jest-dom) and merge `vitest.coverage.ts` into it. Add `eslint-config-prettier` last in the ESLint config.
+2. `npm install zustand @tanstack/react-query react-router` and `npm install -D prettier vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom`, then `npm install -D @vitest/coverage-v8@<installed vitest version>`. Write `.nvmrc` with the current Node LTS major (24).
+3. Add a `test` block to `vite.config.ts` (`environment: 'jsdom'`, setup file importing jest-dom) and merge `vitest.coverage.ts` into it. Keep the template's `.oxlintrc.json` (react + typescript plugins, rules-of-hooks).
 4. Copy `Makefile`, `Dockerfile`, `nginx.conf`, `.dockerignore`.
 5. Ensure one component test exists so `make check` is green; add `src/api/` for backend calls (dev proxy `/api` → backend when there is a backend).
 6. Append to root `.gitignore`: `node_modules/ dist/ reports/ coverage/`.

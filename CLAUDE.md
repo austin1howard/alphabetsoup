@@ -27,7 +27,7 @@ plugins/<lang>/                      python go vue react swift
   skills/conventions/                the "how" for that language
   skills/scaffold/                   init + templates/ + ci.md (toolchain recipe per provider)
 .claude/skills/new-plugin/           maintainer meta-skill (not published)
-tests/                               lint.py, budget.py (stdlib python)
+tests/                               lint.py, budget.py (stdlib python); templates/<lang>/ scaffold smoke tests
 docs/                                public GitHub Pages site (master:/docs; see docs/CLAUDE.md)
 ```
 
@@ -36,6 +36,7 @@ docs/                                public GitHub Pages site (master:/docs; see
 | Command | Does |
 |---|---|
 | `make check` | lint (validate + structure + site path leaks) + always-on token budget — done gate |
+| `make test-templates` | scaffold each language in a temp dir and run its `make check` (network; `ONLY=<lang>`, `DOCKER_BUILD=1`) |
 | `/new-plugin` | add a language plugin |
 | `open docs/index.html` | preview site |
 

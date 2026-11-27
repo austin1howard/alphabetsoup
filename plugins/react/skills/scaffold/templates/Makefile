@@ -13,11 +13,11 @@ dev: ## Vite dev server
 
 fmt: ## Format + autofix
 	npx prettier --write .
-	npx eslint . --fix
+	npx oxlint --fix
 
 lint: ## Format check + lint (read-only)
 	npx prettier --check .
-	npx eslint .
+	npx oxlint
 
 typecheck: ## Type check
 	npx tsc -b

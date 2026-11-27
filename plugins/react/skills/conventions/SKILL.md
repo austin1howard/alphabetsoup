@@ -6,7 +6,7 @@ description: "React coding conventions: tooling, library picks, patterns, layout
 # React Conventions
 
 ## Tooling
-- TypeScript (always), ESLint + Prettier, Vitest + Testing Library, tsc
+- TypeScript (always), oxlint (lint; ships with the Vite template), Prettier (format), Vitest + Testing Library, tsc
 
 ## Libraries (default picks)
 - Client state → Zustand
