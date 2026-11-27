@@ -16,6 +16,9 @@ plugins/<name>/skills/conventions/SKILL.md     # Tooling, Libraries, Patterns, A
 plugins/<name>/skills/scaffold/SKILL.md        # init command, deps, which templates, gitignore lines, make check
 plugins/<name>/skills/scaffold/ci.md           # one column per provider in plugins/alphabetsoup/skills/ci/providers/
 plugins/<name>/skills/scaffold/templates/      # Makefile (all standard targets), Dockerfile (+ .dockerignore) if deployable, tool config
+plugins/<name>/evals/writes-<name>/            # positive: natural prompt; skill-fired (arm: both, weight 2) + regex graders for the opinions
+plugins/<name>/evals/skips-<other>/            # negative: nearby language; tool_used Skill max: 0, arm: both
+tests/templates/<name>/scaffold.sh             # follows the scaffold skill; fixtures so `make check` is green
 ```
 - `conventions` description must say "Load before writing, editing, or reviewing any <Language> code."
 - Makefile must implement every target in `alphabetsoup:standards`; `test` writes `reports/junit.xml` + cobertura coverage and fails under 80%.
@@ -28,9 +31,11 @@ plugins/<name>/skills/scaffold/templates/      # Makefile (all standard targets)
 ## 4 — Site
 Follow `docs/CLAUDE.md` → "Adding a language".
 
-## 5 — Validate
+## 5 — Verify
 ```bash
-claude plugin validate .
-claude plugin validate ./plugins/<name>
+make check                       # validate, structure, eval suites load, token budget
+make test-templates ONLY=<name>  # scaffold really works
+make eval-quick ONLY=<name>      # cheap: 1 run, with-plugin arm
+make eval ONLY=<name>            # confirm: 3 runs, with/without Δ
 ```
-Fix all errors.
+Fix all failures. Evals: prefer deterministic regex graders on `{source: file}` or the last message; `llm` only for short PASS/FAIL rubrics. A skill that doesn't fire → fix its `description`, not the prompt.

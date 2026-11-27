@@ -153,6 +153,41 @@ def check_site() -> None:
         err(f"docs/index.html: path/file name outside #install: {hit!r}")
 
 
+def check_evals(names: list[str]) -> None:
+    """Every plugin ships an eval suite that loads cleanly and covers skill triggering."""
+    for name in names:
+        evals = PLUGINS / name / "evals"
+        cases = sorted(d for d in evals.iterdir() if d.is_dir() and d.name != "results") if evals.exists() else []
+        if not cases:
+            err(f"plugins/{name}: no eval cases (evals/<case>/)")
+            continue
+        graders = "\n".join(g.read_text() for g in evals.glob("*/graders/*.md"))
+        def fires(skill: str) -> bool:
+            return re.search(rf"input_match:.*\(\?:{re.escape(name)}:\)\?{re.escape(skill)}\\?\"", graders) is not None
+        if name == CORE:
+            for sk in sorted((PLUGINS / CORE / "skills").iterdir()):
+                fm = frontmatter(sk / "SKILL.md")
+                if fm.get("disable-model-invocation") != "true" and not fires(sk.name):
+                    err(f"{CORE}:{sk.name} is model-invoked but no eval asserts it fires")
+        elif not fires("conventions"):
+            err(f"plugins/{name}: no eval asserts {name}:conventions fires")
+        if not re.search(r"max:\s*0", graders):
+            err(f"plugins/{name}: no negative trigger eval (tool_used Skill with max: 0)")
+        # free dry load: cost ceiling 0 parses every case and grader without launching a run
+        r = subprocess.run(
+            ["claude", "plugin", "eval", str(PLUGINS / name), "--trust-plugin", "--no-publish", "--scaffold",
+             "--allow-tools", "Write", "Edit", "--max-cost-usd", "0"],
+            capture_output=True, text=True,
+        )
+        out = r.stdout + r.stderr
+        for line in out.splitlines():
+            if line.startswith(("✗", "⚠ case")) or "Couldn't load" in line:
+                err(f"plugins/{name} evals: {line.strip()}")
+        m = re.search(r"× (\d+) cases?", out)
+        if not m or int(m.group(1)) != len(cases):
+            err(f"plugins/{name} evals: loaded {m.group(1) if m else 0} of {len(cases)} cases")
+
+
 def main() -> int:
     names = check_marketplace()
     check_files()
@@ -160,6 +195,7 @@ def main() -> int:
     check_site()
     if "--no-validate" not in sys.argv:
         check_validate()
+        check_evals(names)
     for e in errors:
         print(f"✘ {e}")
     print(f"lint: {len(errors)} error(s)" if errors else "lint: ok")
