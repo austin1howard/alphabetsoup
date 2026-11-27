@@ -75,6 +75,16 @@ compose.yaml
 .github/workflows/ or .gitlab-ci.yml
 ```
 
+## Testing
+
+| Tier | Command | Cost |
+|---|---|---|
+| Static | `make check` — manifests, structure, eval suites load and cover triggering, always-on token budget | free |
+| Templates | `make test-templates` — scaffold each language for real and run its `make check` | free, network |
+| Evals | `make eval` — [`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals.md): each skill fires when it should, stays quiet when it shouldn't, and changes the output (with vs. without plugin) | paid |
+
+CI runs the first two on every push; evals run on manual dispatch.
+
 ## Add a language
 
 Maintainers: run `/new-plugin` in this repo.

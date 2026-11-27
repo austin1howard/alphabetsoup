@@ -30,6 +30,7 @@ plugins/<lang>/                      python go vue react swift
 .claude/skills/new-plugin/           maintainer meta-skill (not published)
 plugins/*/evals/                     claude plugin eval suites (results/ gitignored)
 tests/                               lint.py, budget.py (stdlib python); templates/<lang>/ scaffold smoke tests
+.github/workflows/                   ci.yml (lint, budget, templates per lang), evals.yml (manual; ANTHROPIC_API_KEY)
 docs/                                public GitHub Pages site (master:/docs; see docs/CLAUDE.md)
 ```
 
