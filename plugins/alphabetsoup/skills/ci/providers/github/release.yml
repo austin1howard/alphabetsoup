@@ -1,0 +1,52 @@
+# Skeleton. Repeat per domain that has docker-build. Single-stack: image path drops "/<<d>>".
+name: release
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  <<d>>-verify:
+    name: <<d>> / verify
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: <<d>> } }
+    # services/env as in ci.yml <<d>>-test when Postgres is used
+    steps:
+      - name: Checkout
+        uses: actions/checkout@<<sha>> # <<tag>>
+      - name: Set up toolchain
+        <<recipe: toolchain step>>
+      - name: Install deps
+        run: make setup
+      - name: Check
+        run: make check
+
+  <<d>>-release:
+    name: <<d>> / release
+    needs: <<d>>-verify
+    runs-on: ubuntu-latest
+    permissions: { contents: read, packages: write }
+    defaults: { run: { working-directory: <<d>> } }
+    env:
+      IMAGE: ghcr.io/${{ github.repository }}/<<d>>
+    steps:
+      - name: Checkout
+        uses: actions/checkout@<<sha>> # <<tag>>
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@<<sha>> # <<tag>>
+      - name: Log in to GHCR
+        uses: docker/login-action@<<sha>> # <<tag>>
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image
+        run: make docker-build IMAGE="${IMAGE,,}:${GITHUB_REF_NAME#v}"
+      - name: Push image
+        run: |
+          IMG="${IMAGE,,}"
+          docker tag "$IMG:${GITHUB_REF_NAME#v}" "$IMG:latest"
+          docker push "$IMG:${GITHUB_REF_NAME#v}"
+          docker push "$IMG:latest"

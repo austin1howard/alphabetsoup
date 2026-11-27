@@ -1,0 +1,7 @@
+{
+  "name": "go",
+  "description": "Go conventions and project scaffold (huma + chi, pgx + sqlc, slog, golangci-lint).",
+  "author": {
+    "name": "Austin Howard"
+  }
+}

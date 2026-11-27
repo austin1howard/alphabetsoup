@@ -1,0 +1,7 @@
+{
+  "name": "vue",
+  "description": "Vue 3 conventions and project scaffold (TypeScript, Pinia, Vue Router, Vitest, oxfmt).",
+  "author": {
+    "name": "Austin Howard"
+  }
+}

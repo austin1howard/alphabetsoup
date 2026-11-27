@@ -1,6 +1,6 @@
 {
   "name": "alphabetsoup",
-  "description": "Core orchestration plugin: configuration and coordination skills for the alphabetsoup marketplace.",
+  "description": "Core: bootstrap, repo standards, testing bar, specs, CI, paired walkthroughs, and independent review agents.",
   "author": {
     "name": "Austin Howard"
   }

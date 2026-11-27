@@ -1,0 +1,111 @@
+# Skeleton. Repeat the <<d>>-* block per domain; drop `changes` + `if:` for single-stack
+# (job names then omit the "<<d>> / " prefix and working-directory is ".").
+# Pin every action to its release commit SHA with a `# vX` comment.
+name: ci
+on:
+  push:
+    branches: [<<default-branch>>]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    name: detect changes
+    runs-on: ubuntu-latest
+    permissions: { contents: read, pull-requests: read }
+    outputs:
+      <<d>>: ${{ steps.filter.outputs.<<d>> }}
+    steps:
+      - uses: actions/checkout@<<sha>> # <<tag>>
+      - id: filter
+        uses: dorny/paths-filter@<<sha>> # <<tag>>
+        with:
+          filters: |
+            <<d>>: ['<<d>>/**', '.github/workflows/**']
+
+  <<d>>-lint:
+    name: <<d>> / lint
+    needs: changes
+    if: needs.changes.outputs.<<d>> == 'true'
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: <<d>> } }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@<<sha>> # <<tag>>
+      - name: Set up toolchain
+        <<recipe: toolchain step>>
+      - name: Install deps
+        run: make setup
+      - name: Lint
+        run: make lint
+
+  <<d>>-typecheck:            # omit when recipe says no typecheck
+    name: <<d>> / typecheck
+    # same as lint; final step `make typecheck`
+
+  <<d>>-test:
+    name: <<d>> / test
+    needs: changes
+    if: needs.changes.outputs.<<d>> == 'true'
+    runs-on: ubuntu-latest
+    permissions: { contents: read, checks: write }
+    defaults: { run: { working-directory: <<d>> } }
+    services:                 # only when the domain uses Postgres
+      db:
+        image: postgres:18-alpine
+        env: { POSTGRES_USER: app, POSTGRES_PASSWORD: app, POSTGRES_DB: app }
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U app" --health-interval 2s --health-retries 15
+    env:
+      DATABASE_URL: postgresql://app:app@localhost:5432/app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@<<sha>> # <<tag>>
+      - name: Set up toolchain
+        <<recipe: toolchain step>>
+      - name: Install deps
+        run: make setup
+      - name: Test
+        run: make test
+      - name: Test report
+        if: always()
+        uses: mikepenz/action-junit-report@<<sha>> # <<tag>>
+        with:
+          report_paths: <<d>>/reports/junit.xml
+          check_name: <<d>> / test results
+      - name: Coverage summary
+        if: always()
+        uses: irongut/CodeCoverageSummary@<<sha>> # <<tag>>
+        with:
+          filename: <<d>>/<<recipe: coverage file>>
+          format: markdown
+          output: file
+      - name: Publish coverage summary
+        if: always()
+        working-directory: .
+        run: cat code-coverage-results.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@<<sha>> # <<tag>>
+        with:
+          name: <<d>>-reports
+          path: <<d>>/reports/
+
+  <<d>>-build:                # omit for domains without docker-build (swift: run `make build` on its runner instead)
+    name: <<d>> / build
+    needs: [<<d>>-lint, <<d>>-typecheck, <<d>>-test]
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: <<d>> } }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@<<sha>> # <<tag>>
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@<<sha>> # <<tag>>
+      - name: Build image
+        run: make docker-build IMAGE=<<d>>:${{ github.sha }}

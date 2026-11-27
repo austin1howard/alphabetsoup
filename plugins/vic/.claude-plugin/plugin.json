@@ -1,7 +1,0 @@
-{
-  "name": "vic",
-  "description": "Vue 3 frontend engineer agent. Implements Vue 3 components, pages, and stores in frontend/ from specs/.",
-  "author": {
-    "name": "Austin Howard"
-  }
-}

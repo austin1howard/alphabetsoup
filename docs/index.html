@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>alphabetsoup — spec-driven agents for Claude Code</title>
-<meta name="description" content="A Claude Code plugin marketplace for spec-driven development. Scoped expert agents, one per domain, coordinated through durable spec files.">
+<title>alphabetsoup — opinionated skills for Claude Code</title>
+<meta name="description" content="A Claude Code plugin marketplace of opinionated skills: per-language conventions, consistent repo structure, specs, Makefile-first commands, Docker and CI starting points, paired code walkthroughs.">
 <meta property="og:title" content="alphabetsoup">
-<meta property="og:description" content="One agent per domain. Specs as the protocol. A Claude Code plugin marketplace for spec-driven development.">
+<meta property="og:description" content="Same conventions, same structure, every repo. Opinionated skills for Claude Code.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317161C'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23EDE8E0' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,13 +22,13 @@
     --bone:#EDE8E0;
     --muted:#9C97A6;
     --faint:#6E6979;
-    /* agent hues, drawn from each language's own identity */
-    --aspen:#8E8BFF;   /* architect — blueprint indigo */
-    --gale:#2FC4E0;    /* Go */
-    --pat:#FFCE47;     /* Python */
-    --randy:#61DAFB;   /* React */
-    --vic:#4ED69A;     /* Vue */
-    --sol:#F05138;     /* Swift */
+    --accent:#8E8BFF;  /* selection + focus ring only */
+    /* language hues, drawn from each language's own identity */
+    --go:#2FC4E0;
+    --python:#FFCE47;
+    --react:#61DAFB;
+    --vue:#4ED69A;
+    --swift:#F05138;
     --maxw:1080px;
   }
   *{box-sizing:border-box}
@@ -42,10 +42,9 @@
     overflow-x:hidden;
   }
   a{color:inherit}
-  ::selection{background:var(--aspen);color:var(--ink)}
+  ::selection{background:var(--accent);color:var(--ink)}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
   .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
-  .aspen{color:var(--aspen);font-weight:500}
 
   /* ---- eyebrow / section labels ---- */
   .eyebrow{
@@ -61,7 +60,7 @@
     height:60px;max-width:var(--maxw);margin:0 auto;padding:0 28px}
   .brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
     font-size:19px;letter-spacing:-.02em;text-decoration:none}
-  .brand b{color:var(--pat)}
+  .brand b{color:var(--python)}
   .nav-links{display:flex;gap:26px;align-items:center;font-size:14px}
   .nav-links a{color:var(--muted);text-decoration:none;transition:color .15s}
   .nav-links a:hover{color:var(--bone)}
@@ -82,7 +81,7 @@
     font-size:clamp(40px,6.4vw,68px);line-height:.98;letter-spacing:-.03em;
     margin:18px 0 0}
   .hero h1 .soup{
-    background:linear-gradient(96deg,var(--gale),var(--vic) 42%,var(--pat) 70%,var(--randy));
+    background:linear-gradient(96deg,var(--go),var(--vue) 42%,var(--python) 70%,var(--react));
     -webkit-background-clip:text;background-clip:text;color:transparent}
   .hero p.lede{color:var(--muted);font-size:19px;max-width:38ch;margin:22px 0 0}
   .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
@@ -113,8 +112,8 @@
   .tile:hover{transform:translateY(-4px);border-color:transparent}
   .tile:hover::after{box-shadow:inset 0 0 0 1px var(--hue),0 10px 30px -12px var(--hue)}
   .tile:hover .glyph{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--hue) 55%,transparent))}
-  .t-aspen{--hue:var(--aspen)} .t-gale{--hue:var(--gale)}
-  .t-pat{--hue:var(--pat)} .t-randy{--hue:var(--randy)} .t-vic{--hue:var(--vic)} .t-sol{--hue:var(--sol)}
+  .t-go{--hue:var(--go)} .t-python{--hue:var(--python)} .t-react{--hue:var(--react)}
+  .t-vue{--hue:var(--vue)} .t-swift{--hue:var(--swift)}
   .t-core{--hue:var(--bone)}
   .t-core .glyph{font-size:40px;line-height:1.3}
   .t-core .core-mark{display:inline-flex;gap:4px;align-items:flex-end;height:44px}
@@ -129,8 +128,7 @@
   .anim .tile:nth-child(4){animation-delay:.22s}
   .anim .tile:nth-child(5){animation-delay:.28s}
   .anim .tile:nth-child(6){animation-delay:.34s}
-  .anim .tile:nth-child(7){animation-delay:.40s}
-  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+    @keyframes rise{to{opacity:1;transform:translateY(0)}}
 
   /* ---- generic section ---- */
   section{padding:76px 0;border-top:1px solid var(--line)}
@@ -167,7 +165,7 @@
     line-height:1;letter-spacing:-.04em;color:var(--hue);width:32px;text-align:center;flex:none;
     transition:filter .18s}
   .agent:hover .ini{filter:drop-shadow(0 0 16px color-mix(in srgb,var(--hue) 55%,transparent))}
-  .agent .meta{flex:none;width:74px}
+  .agent .meta{flex:none;width:80px}
   .agent .nm{font-weight:600;font-size:16px}
   .agent .rl{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-top:3px}
   .tags{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto;min-width:0}
@@ -179,8 +177,8 @@
   .tag.anti{color:#E6B2B2;border-color:rgba(224,120,120,.36);background:rgba(224,120,120,.10)}
   .domain.full .meta{width:auto}
   .domain.full .tags{flex-basis:100%;justify-content:center;margin-top:4px}
-  .agent.t-aspen{--hue:var(--aspen)} .agent.t-gale{--hue:var(--gale)}
-  .agent.t-pat{--hue:var(--pat)} .agent.t-randy{--hue:var(--randy)} .agent.t-vic{--hue:var(--vic)} .agent.t-sol{--hue:var(--sol)}
+  .agent.t-go{--hue:var(--go)} .agent.t-python{--hue:var(--python)} .agent.t-react{--hue:var(--react)}
+  .agent.t-vue{--hue:var(--vue)} .agent.t-swift{--hue:var(--swift)}
   .core-strip{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:16px;
     background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
     text-align:center;flex-wrap:wrap}
@@ -200,8 +198,8 @@
   pre{font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.6;
     background:#100F14;border:1px solid var(--line);border-radius:12px;
     padding:16px 18px;overflow-x:auto;margin:12px 0 0;color:#D9D4E4}
-  pre .p{color:var(--faint)} pre .cmd{color:var(--vic)} pre .arg{color:var(--pat)}
-  pre .key{color:var(--randy)} pre .str{color:var(--gale)}
+  pre .p{color:var(--faint)} pre .cmd{color:var(--vue)} pre .arg{color:var(--python)}
+  pre .key{color:var(--react)} pre .str{color:var(--go)}
 
   /* ---- workflows ---- */
   .flows{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -223,7 +221,7 @@
   .foot-links a:hover{color:var(--bone)}
   .foot-note{color:var(--faint);font-size:13px;margin-top:22px}
 
-  :focus-visible{outline:2px solid var(--aspen);outline-offset:3px;border-radius:4px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -252,21 +250,20 @@
     <div class="wrap hero-grid">
       <div>
         <span class="eyebrow">A Claude Code plugin marketplace</span>
-        <h1>One agent per domain.<br><span class="soup">Specs as the protocol.</span></h1>
-        <p class="lede">A Claude Code plugin marketplace. Each plugin adds one agent scoped to a single domain; a shared architect owns the specs, and a core plugin routes work between them.</p>
+        <h1>Same opinions.<br><span class="soup">Every repo.</span></h1>
+        <p class="lede">Skills that make Claude build the way you do: per-language conventions, one repo shape, Makefile-first commands, specs that stay current, and code walkthroughs you review together.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#install">Install</a>
           <a class="btn btn-ghost" href="https://github.com/austin1howard/alphabetsoup">View on GitHub ↗</a>
         </div>
       </div>
-      <div class="roster" id="roster" aria-label="The agent roster">
-        <div class="tile t-aspen"><span class="glyph">A</span><div class="nm">aspen</div><div class="role">architect · specs</div></div>
-        <div class="tile t-gale"><span class="glyph">G</span><div class="nm">gale</div><div class="role">Go · backend</div></div>
-        <div class="tile t-pat"><span class="glyph">P</span><div class="nm">pat</div><div class="role">Python · backend</div></div>
-        <div class="tile t-randy"><span class="glyph">R</span><div class="nm">randy</div><div class="role">React · frontend</div></div>
-        <div class="tile t-vic"><span class="glyph">V</span><div class="nm">vic</div><div class="role">Vue 3 · frontend</div></div>
-        <div class="tile t-sol"><span class="glyph">S</span><div class="nm">sol</div><div class="role">Swift · native</div></div>
-        <div class="tile t-core"><span class="glyph core-mark" aria-hidden="true"><i style="height:16px"></i><i style="height:30px"></i><i style="height:22px"></i></span><div class="nm">alphabetsoup</div><div class="role">core · orchestrates</div></div>
+      <div class="roster" id="roster" aria-label="Plugins">
+        <div class="tile t-go"><span class="glyph">G</span><div class="nm">go</div><div class="role">backend</div></div>
+        <div class="tile t-python"><span class="glyph">P</span><div class="nm">python</div><div class="role">backend</div></div>
+        <div class="tile t-react"><span class="glyph">R</span><div class="nm">react</div><div class="role">frontend</div></div>
+        <div class="tile t-vue"><span class="glyph">V</span><div class="nm">vue</div><div class="role">frontend</div></div>
+        <div class="tile t-swift"><span class="glyph">S</span><div class="nm">swift</div><div class="role">native</div></div>
+        <div class="tile t-core"><span class="glyph core-mark" aria-hidden="true"><i style="height:16px"></i><i style="height:30px"></i><i style="height:22px"></i></span><div class="nm">alphabetsoup</div><div class="role">core skills</div></div>
       </div>
     </div>
   </div>
@@ -276,29 +273,29 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Design</span>
-        <h2>Built for agents, not a team of humans.</h2>
-        <p>Most multi-agent frameworks copy a human org: personas that chat, negotiate, and hold standups. Agents gain nothing from the ritual — it's tokens spent re-explaining what a spec already records. Coordination here is deliberately thin, and these four decisions carry it.</p>
+        <h2>One session. Shared opinions.</h2>
+        <p>Current models handle a whole task in one context. Splitting work across agents adds hand-offs and re-explained context, and costs more tokens than it saves. What's still worth packaging is the opinion, so the code looks familiar when you review it.</p>
       </div>
       <div class="why-grid">
         <div class="card">
-          <div class="k">// protocol</div>
-          <h3>Specs are the source of truth</h3>
-          <p><span class="aspen">aspen</span> owns the specs. Engineer agents read from them and implement against them. When code and spec disagree, the agent flags the conflict instead of guessing — so intent lives in one place, not re-explained each turn.</p>
+          <div class="k">// conventions</div>
+          <h3>Loaded when the language is</h3>
+          <p>Each language plugin carries its library picks, patterns, anti-patterns, layout, and testing setup. Claude loads them before it writes that language, so only the stacks a repo actually uses cost context.</p>
         </div>
         <div class="card">
-          <div class="k">// scope</div>
-          <h3>Each agent's context is one domain</h3>
-          <p>An agent loads only the domain it owns, not the whole repo. Context stays small and relevant as the project grows, which holds output quality up and token cost down.</p>
+          <div class="k">// structure</div>
+          <h3>Every repo has the same shape</h3>
+          <p>One layout, one project-guide format (summary, golden rules, layout, commands), and the same make targets everywhere. Claude runs make, never the raw tool, so the commands CI runs match the ones you run.</p>
         </div>
         <div class="card">
-          <div class="k">// hand-off</div>
-          <h3>Hand-offs are structured, not chat</h3>
-          <p>Each turn ends with a structured Summary + Requests block. The coordination skill parses it and dispatches the requested work to the right agent — no free-form back-and-forth.</p>
+          <div class="k">// throughline</div>
+          <h3>Specs carry intent over time</h3>
+          <p>Product, architecture, domain, features, decisions. Each spec says what the system does and why, and is updated in the same change as the code, so the code is always reviewed against the current spec.</p>
         </div>
         <div class="card">
-          <div class="k">// parallel</div>
-          <h3>Independent work runs concurrently</h3>
-          <p>Agents in separate domains run at the same time. The one enforced ordering is spec before implementation: <span class="aspen">aspen</span> writes the spec, then engineers build against it.</p>
+          <div class="k">// review</div>
+          <h3>Paired, then independent</h3>
+          <p>Walk a diff stop by stop, tour an unfamiliar codebase, or trace an error back to its cause, together. When a second opinion matters, a reviewer and a security reviewer each check the change in a fresh context.</p>
         </div>
       </div>
     </div>
@@ -309,32 +306,28 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Plugins</span>
-        <h2>One plugin per agent, named for its language's first letter.</h2>
-        <p>gale for Go, pat for Python, randy for React — each enforces its own opinionated defaults. Install any of them with <code class="mono" style="color:var(--bone)">/plugin install &lt;name&gt;@alphabetsoup</code>.</p>
-      </div>
-      <div class="core-strip">
-        <span class="core-mark" aria-hidden="true"><i style="height:9px"></i><i style="height:18px"></i><i style="height:13px"></i></span>
-        <span><span class="nm">alphabetsoup</span> <span class="rl">— core: orchestrator &amp; your interface to the agents</span></span>
+        <h2>A core plugin, plus one per language.</h2>
+        <p>Each language plugin ships its conventions and a scaffold (init, Makefile, Dockerfile, CI recipe). Enable only the ones your stack uses.</p>
       </div>
       <div class="domains">
         <div class="domain">
           <div class="dhead">backend</div>
-          <div class="agent t-gale"><span class="ini">G</span><div class="meta"><div class="nm">gale</div><div class="rl">Go</div></div><div class="tags"><span class="tag lib">sqlc + pgx</span><span class="tag rule">accept interfaces, return structs</span><span class="tag lib">huma + chi</span><span class="tag anti">no ORM</span><span class="tag lib">slog</span></div></div>
-          <div class="agent t-pat"><span class="ini">P</span><div class="meta"><div class="nm">pat</div><div class="rl">Python</div></div><div class="tags"><span class="tag lib">pydantic v2</span><span class="tag rule">explicit SQL</span><span class="tag anti">no ORM</span><span class="tag rule">functions, not classes</span><span class="tag anti">no mypy</span></div></div>
+          <div class="agent t-go"><span class="ini">G</span><div class="meta"><div class="nm">go</div><div class="rl">Go</div></div><div class="tags"><span class="tag lib">sqlc + pgx</span><span class="tag rule">accept interfaces, return structs</span><span class="tag lib">huma + chi</span><span class="tag anti">no ORM</span><span class="tag lib">slog</span></div></div>
+          <div class="agent t-python"><span class="ini">P</span><div class="meta"><div class="nm">python</div><div class="rl">Python</div></div><div class="tags"><span class="tag lib">pydantic v2</span><span class="tag rule">explicit SQL</span><span class="tag anti">no ORM</span><span class="tag rule">functions, not classes</span><span class="tag anti">no mypy</span></div></div>
         </div>
         <div class="domain">
           <div class="dhead">frontend</div>
-          <div class="agent t-randy"><span class="ini">R</span><div class="meta"><div class="nm">randy</div><div class="rl">React</div></div><div class="tags"><span class="tag lib">Zustand</span><span class="tag rule">derive, don't duplicate</span><span class="tag lib">React Query</span><span class="tag anti">no useEffect fetching</span><span class="tag lib">React Router</span></div></div>
-          <div class="agent t-vic"><span class="ini">V</span><div class="meta"><div class="nm">vic</div><div class="rl">Vue 3</div></div><div class="tags"><span class="tag rule">&lt;script setup&gt;</span><span class="tag lib">Pinia</span><span class="tag rule">composables</span><span class="tag lib">VueUse</span><span class="tag anti">no Options API</span></div></div>
+          <div class="agent t-react"><span class="ini">R</span><div class="meta"><div class="nm">react</div><div class="rl">React</div></div><div class="tags"><span class="tag lib">Zustand</span><span class="tag rule">derive, don't duplicate</span><span class="tag lib">React Query</span><span class="tag anti">no useEffect fetching</span><span class="tag lib">React Router</span></div></div>
+          <div class="agent t-vue"><span class="ini">V</span><div class="meta"><div class="nm">vue</div><div class="rl">Vue 3</div></div><div class="tags"><span class="tag rule">&lt;script setup&gt;</span><span class="tag lib">Pinia</span><span class="tag rule">composables</span><span class="tag lib">oxfmt</span><span class="tag anti">no Options API</span></div></div>
         </div>
         <div class="domain">
           <div class="dhead">native</div>
-          <div class="agent t-sol"><span class="ini">S</span><div class="meta"><div class="nm">sol</div><div class="rl">Swift</div></div><div class="tags"><span class="tag rule">struct-first</span><span class="tag lib">GRDB</span><span class="tag anti">no force unwrap</span><span class="tag rule">async/await</span><span class="tag lib">Codable</span></div></div>
+          <div class="agent t-swift"><span class="ini">S</span><div class="meta"><div class="nm">swift</div><div class="rl">Swift</div></div><div class="tags"><span class="tag rule">struct-first</span><span class="tag lib">GRDB</span><span class="tag anti">no force unwrap</span><span class="tag rule">strict concurrency</span><span class="tag lib">Swift Testing</span></div></div>
         </div>
       </div>
       <div class="domain full">
-        <div class="dhead">specs</div>
-        <div class="agent t-aspen"><span class="ini">A</span><div class="meta"><div class="nm">aspen</div><div class="rl">architect — source of truth for every agent</div></div><div class="tags"><span class="tag rule">specs are the contract</span><span class="tag anti">flag conflicts, don't drift</span><span class="tag rule">spec before code</span></div></div>
+        <div class="dhead">core</div>
+        <div class="agent"><div class="meta"><div class="nm">alphabetsoup</div><div class="rl">standards, testing bar, specs, CI, walkthroughs, review</div></div><div class="tags"><span class="tag rule">make, never raw tools</span><span class="tag rule">≥ 80% coverage</span><span class="tag anti">no mocking owned code</span><span class="tag rule">specs updated with code</span><span class="tag lib">GitHub or GitLab</span></div></div>
       </div>
     </div>
   </section>
@@ -344,7 +337,7 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Install</span>
-        <h2>Register the marketplace, then install the core plugin.</h2>
+        <h2>Register the marketplace, then bootstrap.</h2>
       </div>
       <div class="steps">
         <div class="step">
@@ -352,17 +345,19 @@
           <div class="body">
             <strong>Register the marketplace</strong> in your project's <code class="mono">.claude/settings.json</code>.
             <pre>{
-  <span class="key">"extraKnownMarketplaces"</span>: [{ <span class="key">"github"</span>: <span class="str">"austin1howard/alphabetsoup"</span> }]
+  <span class="key">"extraKnownMarketplaces"</span>: {
+    <span class="key">"alphabetsoup"</span>: { <span class="key">"source"</span>: { <span class="key">"source"</span>: <span class="str">"github"</span>, <span class="key">"repo"</span>: <span class="str">"austin1howard/alphabetsoup"</span> } }
+  }
 }</pre>
           </div>
         </div>
         <div class="step">
           <div class="num">2</div>
           <div class="body">
-            <strong>Install the core plugin and run configuration.</strong>
+            <strong>Install the core plugin and bootstrap.</strong>
             <pre><span class="cmd">/plugin</span> <span class="arg">install</span> alphabetsoup@alphabetsoup
-<span class="cmd">/alphabetsoup:configuration</span></pre>
-            <p>Step 1 is a one-time bootstrap. From then on <code class="mono">/alphabetsoup:configuration</code> keeps the marketplace registered, detects your stack, and enables the right plugins.</p>
+<span class="cmd">/alphabetsoup:bootstrap</span></pre>
+            <p>Bootstrap detects or asks for your stack, enables the language plugins, and scaffolds the repo. On an existing repo it lists the gaps and changes only what you approve.</p>
           </div>
         </div>
       </div>
@@ -374,18 +369,29 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Skills</span>
-        <h2>Two slash commands drive the marketplace.</h2>
+        <h2>Four commands. The rest loads on its own.</h2>
+        <p>Standards, the testing bar, specs, and each language's conventions load automatically when the work calls for them.</p>
       </div>
       <div class="flows">
         <div class="flow">
-          <span class="chip">/alphabetsoup:configuration</span>
-          <h3>Configuration</h3>
-          <p>Detects your stack, enables the matching plugins, scaffolds the domains each agent owns, and re-registers the marketplace. Run it any time the setup drifts.</p>
+          <span class="chip">/alphabetsoup:bootstrap</span>
+          <h3>Bootstrap</h3>
+          <p>Scaffold a new repo or adopt an existing one: layout, project guide, make targets, specs, Docker, compose, CI.</p>
         </div>
         <div class="flow">
-          <span class="chip">/alphabetsoup:coordination</span>
-          <h3>Coordination</h3>
-          <p>Takes a goal, dispatches each piece to the agent that owns the relevant domain, runs independent pieces in parallel, and routes the Summary + Requests hand-offs until the goal is done.</p>
+          <span class="chip">/alphabetsoup:ci [github|gitlab]</span>
+          <h3>CI</h3>
+          <p>Lint, typecheck, test, build, and release, each its own job per domain. Every job runs one make target, so switching providers just regenerates one thin file.</p>
+        </div>
+        <div class="flow">
+          <span class="chip">/alphabetsoup:walkthrough</span>
+          <h3>Walkthrough</h3>
+          <p>A diff, a codebase tour, or "how does X work / why this error". One stop at a time with line references; it waits for you, and records the changes you ask for.</p>
+        </div>
+        <div class="flow">
+          <span class="chip">/alphabetsoup:review</span>
+          <h3>Review</h3>
+          <p>Independent fresh-context review: correctness and conventions, security, or both. Findings come back ranked with fixes.</p>
         </div>
       </div>
     </div>
@@ -402,7 +408,7 @@
         <a href="#install">Install</a>
       </div>
     </div>
-    <p class="foot-note">Specs are the source of truth — <span class="aspen">aspen</span> authors them, engineers implement. Add a language with <code class="mono" style="color:var(--muted)">/new-plugin</code>.</p>
+    <p class="foot-note">Conventions in the plugins, intent in the specs, commands in make.</p>
   </div>
 </footer>
 

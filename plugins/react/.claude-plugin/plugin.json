@@ -1,0 +1,7 @@
+{
+  "name": "react",
+  "description": "React conventions and project scaffold (TypeScript, Zustand, React Query, React Router, Vitest).",
+  "author": {
+    "name": "Austin Howard"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "python",
+  "description": "Python conventions and project scaffold (uv, ruff, pytest, FastAPI, pydantic, explicit SQL).",
+  "author": {
+    "name": "Austin Howard"
+  }
+}

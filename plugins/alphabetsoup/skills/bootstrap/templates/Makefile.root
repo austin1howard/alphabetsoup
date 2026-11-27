@@ -1,0 +1,21 @@
+# Multi-stack root Makefile. Single-stack repos use the language Makefile at root instead
+# and append the compose targets below if compose.yaml exists.
+.DEFAULT_GOAL := help
+DOMAINS := {{domains}}
+.PHONY: help setup dev fmt lint typecheck test check build docker-build up down clean
+
+help: ## Show targets
+	@grep -E '^[a-zA-Z_ -]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*## "}{printf "  %-14s %s\n",$$1,$$2}'
+
+setup fmt lint typecheck test build docker-build clean: ## Run target in every domain
+	@for d in $(DOMAINS); do $(MAKE) -C $$d $@ || exit 1; done
+
+check: lint typecheck test ## Done gate (all domains)
+
+dev: up ## Full stack via compose
+
+up: ## Start compose stack
+	docker compose up --build -d
+
+down: ## Stop compose stack
+	docker compose down
