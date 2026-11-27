@@ -22,9 +22,9 @@ jobs:
     outputs:
       <<d>>: ${{ steps.filter.outputs.<<d>> }}
     steps:
-      - uses: actions/checkout@<<sha>> # v5
+      - uses: actions/checkout@<<sha>> # <<tag>>
       - id: filter
-        uses: dorny/paths-filter@<<sha>> # v3
+        uses: dorny/paths-filter@<<sha>> # <<tag>>
         with:
           filters: |
             <<d>>: ['<<d>>/**', '.github/workflows/**']
@@ -37,7 +37,7 @@ jobs:
     defaults: { run: { working-directory: <<d>> } }
     steps:
       - name: Checkout
-        uses: actions/checkout@<<sha>> # v5
+        uses: actions/checkout@<<sha>> # <<tag>>
       - name: Set up toolchain
         <<recipe: toolchain step>>
       - name: Install deps
@@ -66,7 +66,7 @@ jobs:
       DATABASE_URL: postgresql://app:app@localhost:5432/app
     steps:
       - name: Checkout
-        uses: actions/checkout@<<sha>> # v5
+        uses: actions/checkout@<<sha>> # <<tag>>
       - name: Set up toolchain
         <<recipe: toolchain step>>
       - name: Install deps
@@ -75,13 +75,13 @@ jobs:
         run: make test
       - name: Test report
         if: always()
-        uses: mikepenz/action-junit-report@<<sha>> # v5
+        uses: mikepenz/action-junit-report@<<sha>> # <<tag>>
         with:
           report_paths: <<d>>/reports/junit.xml
           check_name: <<d>> / test results
       - name: Coverage summary
         if: always()
-        uses: irongut/CodeCoverageSummary@<<sha>> # v1.3.0
+        uses: irongut/CodeCoverageSummary@<<sha>> # <<tag>>
         with:
           filename: <<d>>/<<recipe: coverage file>>
           format: markdown
@@ -92,7 +92,7 @@ jobs:
         run: cat code-coverage-results.md >> "$GITHUB_STEP_SUMMARY"
       - name: Upload reports
         if: always()
-        uses: actions/upload-artifact@<<sha>> # v4
+        uses: actions/upload-artifact@<<sha>> # <<tag>>
         with:
           name: <<d>>-reports
           path: <<d>>/reports/
@@ -104,8 +104,8 @@ jobs:
     defaults: { run: { working-directory: <<d>> } }
     steps:
       - name: Checkout
-        uses: actions/checkout@<<sha>> # v5
+        uses: actions/checkout@<<sha>> # <<tag>>
       - name: Set up Buildx
-        uses: docker/setup-buildx-action@<<sha>> # v3
+        uses: docker/setup-buildx-action@<<sha>> # <<tag>>
       - name: Build image
         run: make docker-build IMAGE=<<d>>:${{ github.sha }}

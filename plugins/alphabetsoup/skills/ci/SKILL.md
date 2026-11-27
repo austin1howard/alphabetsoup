@@ -22,7 +22,7 @@ Name every step (Checkout, Set up toolchain, Install deps, Lint…) so the UI re
 1. Provider: arg, else `git remote get-url origin` (github.com → github, gitlab → gitlab), else ask.
 2. Domains: root (single-stack) or each of `backend/ frontend/ app/` present. For each, read its recipe: `<lang>:scaffold` skill dir `ci.md` (toolchain, cache, typecheck yes/no, report paths).
 3. Fill the skeleton in `${CLAUDE_SKILL_DIR}/providers/<provider>/` — repeat domain blocks, substitute `<<…>>`, drop jobs the recipe omits.
-   - github → `.github/workflows/ci.yml`, `.github/workflows/release.yml`. Least-privilege `permissions` per job. Pin every action to a commit SHA: `gh api repos/<owner>/<action>/commits/<tag> --jq .sha`, keep `# <tag>` comment.
+   - github → `.github/workflows/ci.yml`, `.github/workflows/release.yml`. Least-privilege `permissions` per job. Pin every action to its latest release's commit SHA: `gh api repos/<owner>/<action>/releases/latest --jq .tag_name`, then `gh api repos/<owner>/<action>/commits/<tag> --jq .sha`; write `@<sha> # <tag>`.
    - gitlab → `.gitlab-ci.yml`. Pin images to exact versions.
 4. Update CLAUDE.md `CI:` line.
 5. Validate: `actionlint` (github) / `glab ci lint` (gitlab) if installed; else YAML parse.
