@@ -4,102 +4,33 @@ description: "Create a new language or framework plugin in this marketplace. Inv
 
 # new-plugin
 
-Scaffold a new language/framework plugin for the alphabetsoup marketplace.
+Plugin name = lowercase language/framework name (`rust`, `svelte`). Check `ls plugins/` for collisions. Model every file on an existing plugin (`plugins/python/` is the reference).
 
-## Step 1 — Get the language/framework
+## 1 — Ask
+If not stated: language/framework, domain dir (`backend/`, `frontend/`, `app/`), and the opinionated picks (tooling, libraries, patterns, anti-patterns). Propose defaults; let the user override.
 
-If not already stated, ask: "Which language or framework is this plugin for?"
-
-## Step 2 — Suggest names
-
-Suggest 3–4 gender-neutral names sharing the language's first letter, via `AskUserQuestion`. Also offer a free-text option so the user can provide their own.
-
-Check existing plugins to avoid duplicates:
-```bash
-ls plugins/
+## 2 — Create
 ```
-
-Examples of the naming pattern: Go → `gale`; Python → `pat`; Vue → `vic`; React → `randy`; Rust → `river`/`robin`/`reese`; Java → `jules`/`jade`; TypeScript → `taylor`/`tatum`.
-
-## Step 3 — Create the plugin
-
-Once a name is confirmed, scaffold:
-
-```bash
-mkdir -p plugins/<name>/.claude-plugin plugins/<name>/agents
+plugins/<name>/.claude-plugin/plugin.json      # name, description, author; no version
+plugins/<name>/skills/conventions/SKILL.md     # Tooling, Libraries, Patterns, Anti-patterns, Layout, Testing
+plugins/<name>/skills/scaffold/SKILL.md        # init command, deps, which templates, gitignore lines, make check
+plugins/<name>/skills/scaffold/ci.md           # one column per provider in plugins/alphabetsoup/skills/ci/providers/
+plugins/<name>/skills/scaffold/templates/      # Makefile (all standard targets), Dockerfile (+ .dockerignore) if deployable, tool config
 ```
+- `conventions` description must say "Load before writing, editing, or reviewing any <Language> code."
+- Makefile must implement every target in `alphabetsoup:standards`; `test` writes `reports/junit.xml` + cobertura coverage and fails under 80%.
 
-Create `plugins/<name>/.claude-plugin/plugin.json`:
-```json
-{
-  "name": "<name>",
-  "description": "<Language/Framework> engineer agent. Implements <language> code in <directory>/ from specs/.",
-  "author": { "name": "Austin Howard" }
-}
-```
+## 3 — Register
+- Append to `.claude-plugin/marketplace.json` `plugins[]`: `{ "name": "<name>", "source": "./plugins/<name>", "description": "<Language> conventions and scaffold." }`
+- Add a detection row to `plugins/alphabetsoup/skills/bootstrap/SKILL.md` step 2.
+- Add a row to README's language table.
 
-Create `plugins/<name>/agents/<name>.md` modeled on an existing engineer agent (e.g. `plugins/gale/agents/gale.md`). Customize: language/framework name, working directory. The agent prompt only points to `CONVENTIONS.md` — language-specific opinions live there, not inline.
+## 4 — Site
+Follow `docs/CLAUDE.md` → "Adding a language".
 
-Create `plugins/<name>/CONVENTIONS.md` — a **real file, never symlinked** — using this template:
-
-```markdown
-# <Language> Conventions
-
-## Tooling
-- ...
-
-## Libraries (default picks)
-- <purpose> → <library>
-
-## Patterns to enforce
-- ...
-
-## Anti-patterns
-- ...
-```
-
-Create symlinks (use Bash, not Write):
-```bash
-cd plugins/<name>
-ln -s ../../shared/GROUND_RULES.md GROUND_RULES.md
-ln -s ../../shared/INTERACTION.md INTERACTION.md
-```
-
-## Step 4 — Register in marketplace catalog
-
-Append to the `plugins[]` array in `.claude-plugin/marketplace.json`:
-```json
-{
-  "name": "<name>",
-  "source": "./plugins/<name>",
-  "description": "<Language/Framework> engineer agent. Implements <language> code in <directory>/ from specs/."
-}
-```
-
-## Step 5 — Update the landing page
-
-The public site at `docs/index.html` lists every agent. Follow `docs/CLAUDE.md` → "Adding a plugin" to keep it in sync. In short, edit `docs/index.html`:
-1. Add a `--<name>` hue var in `:root` (a color from the language's identity).
-2. Bind it: add `.t-<name>` and `.agent.t-<name>` to the hue-class lines.
-3. Add a hero `.tile` for the agent to `.roster`.
-4. Add an `.agent` row to the matching `.domain` in the Plugins section (new `.domain` card if the domain is new), with a `.tags` block of 3–5 opinionated picks from the new `CONVENTIONS.md` (specific libraries and negations like "no ORM" — not generic advice). Class each tag `lib`, `rule`, or `anti` (see `docs/CLAUDE.md`).
-
-Preview with `open docs/index.html` and confirm no filesystem paths leaked outside the Install section.
-
-## Step 6 — Validate
-
-Run:
+## 5 — Validate
 ```bash
 claude plugin validate .
 claude plugin validate ./plugins/<name>
 ```
-
-Fix any reported errors before finishing.
-
----
-
-## Summary
-- Scaffolded `plugins/<name>/` with plugin.json, agent, and shared-rule symlinks.
-- Registered in marketplace.json.
-- Updated `docs/index.html` landing page (per `docs/CLAUDE.md`).
-- Ran `claude plugin validate`.
+Fix all errors.
